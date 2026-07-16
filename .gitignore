@@ -1,0 +1,27 @@
+# dbt generated files
+target/
+dbt_packages/
+logs/
+
+# Python virtual environments and cache
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Environment variables and local secrets
+.env
+.env.*
+profiles.yml
+.user.yml
+
+# Google Cloud credentials and service-account keys
+application_default_credentials.json
+*service-account*.json
+*credentials*.json
+
+# IDE and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

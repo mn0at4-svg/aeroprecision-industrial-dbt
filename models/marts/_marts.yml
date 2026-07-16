@@ -1,0 +1,113 @@
+version: 2
+
+models:
+  - name: fct_quotation_performance
+    description: Quote-level fact table for pricing, margin governance, and sales performance analysis.
+
+    columns:
+      - name: quote_id
+        description: Unique quotation identifier.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: quote_date
+        data_tests:
+          - not_null
+
+      - name: product_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_products')
+                field: product_id
+
+      - name: quote_method
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - Manual
+                  - AI-Automated
+
+      - name: status
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - Won
+                  - Lost
+
+      - name: quoted_price_usd
+        data_tests:
+          - not_null
+
+      - name: actual_gross_margin_pct
+        data_tests:
+          - not_null
+
+      - name: margin_governance_status
+        data_tests:
+          - not_null
+
+      - name: revenue_leak_usd
+        data_tests:
+          - not_null
+
+  - name: mart_cfo_quote_summary
+    description: Monthly CFO summary of quotation speed, win rate, margin compliance, and revenue leakage.
+
+    columns:
+      - name: quote_month
+        data_tests:
+          - not_null
+
+      - name: quote_method
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - Manual
+                  - AI-Automated
+
+      - name: response_speed_band
+        data_tests:
+          - not_null
+
+      - name: category
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - Valves
+                  - Actuators
+                  - Laser-Cut Components
+
+      - name: total_quotes
+        data_tests:
+          - not_null
+
+      - name: won_quotes
+        data_tests:
+          - not_null
+
+      - name: lost_quotes
+        data_tests:
+          - not_null
+
+      - name: win_rate
+        data_tests:
+          - not_null
+
+      - name: margin_violation_quotes
+        data_tests:
+          - not_null
+
+      - name: revenue_leak_usd
+        data_tests:
+          - not_null

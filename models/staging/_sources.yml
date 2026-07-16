@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: manufacturing_raw
+    description: Raw manufacturing and quotation data loaded from source CSV files.
+    database: aeroprecision-data-pipeline
+    schema: raw_manufacturing
+
+    tables:
+      - name: src_products
+        description: Product master containing manufacturing specifications, costs, and CFO margin targets.
+
+      - name: src_transactions
+        description: Historical B2B quotation transactions including response time, quoted price, and margin violations.

@@ -1,0 +1,122 @@
+version: 2
+
+models:
+  - name: stg_products
+    description: Cleaned product master with standardized manufacturing costs and CFO margin targets.
+
+    columns:
+      - name: product_id
+        description: Unique product identifier.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: product_name
+        description: Professional industrial product name.
+        data_tests:
+          - not_null
+
+      - name: category
+        description: Manufacturing product category.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - Valves
+                  - Actuators
+                  - Laser-Cut Components
+
+      - name: raw_material_cost_usd
+        description: Baseline raw material cost per unit.
+        data_tests:
+          - not_null
+
+      - name: estimated_labor_hours
+        description: Estimated skilled manufacturing labor hours.
+        data_tests:
+          - not_null
+
+      - name: labor_rate_hourly_usd
+        description: Standard skilled labor rate per hour.
+        data_tests:
+          - not_null
+
+      - name: cfo_target_gross_margin_pct
+        description: CFO-approved target gross margin represented as a decimal.
+        data_tests:
+          - not_null
+
+      - name: standard_unit_cost_usd
+        description: Calculated material and labor cost per unit.
+        data_tests:
+          - not_null
+
+  - name: stg_transactions
+    description: Cleaned historical quotation transactions with standardized status and response classifications.
+
+    columns:
+      - name: quote_id
+        description: Unique quotation identifier.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: created_at
+        description: Timestamp when the quotation request was created.
+        data_tests:
+          - not_null
+
+      - name: customer_name
+        description: Industrial customer name after whitespace cleanup.
+        data_tests:
+          - not_null
+
+      - name: product_id
+        description: Product identifier linked to the product master.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_products')
+                field: product_id
+
+      - name: requested_quantity
+        description: Number of units requested by the customer.
+        data_tests:
+          - not_null
+
+      - name: created_by
+        description: Sales representative or autonomous AI quoting agent.
+        data_tests:
+          - not_null
+
+      - name: quoted_price_usd
+        description: Total quoted transaction price in USD.
+        data_tests:
+          - not_null
+
+      - name: is_margin_violated
+        description: Indicates whether the quote violated the CFO target margin.
+        data_tests:
+          - not_null
+
+      - name: status
+        description: Standardized quotation outcome.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - Won
+                  - Lost
+
+      - name: quote_method
+        description: Identifies manual or AI-automated quote creation.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - Manual
+                  - AI-Automated
