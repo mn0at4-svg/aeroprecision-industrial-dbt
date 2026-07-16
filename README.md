@@ -4,6 +4,8 @@
 
 # AeroPrecision Industrial — Quotation Analytics & Margin Governance
 
+> **Live CFO Dashboard:** [View the published Evidence dashboard](https://mn0at4-svg.github.io/aeroprecision-industrial-dbt/)
+
 A production-oriented analytics engineering case study built with **Google BigQuery** and **dbt Core**.
 
 The project demonstrates how a B2B precision manufacturer can reduce RFQ response delays, enforce CFO gross-margin policies, identify revenue leakage, and compare AI-automated quotations with manual sales quotations.
@@ -349,6 +351,8 @@ Focus areas:
 <a id="japanese"></a>
 
 # AeroPrecision Industrial — 見積分析・マージンガバナンス基盤
+
+> **公開CFOダッシュボード：** [Evidenceダッシュボードを表示](https://mn0at4-svg.github.io/aeroprecision-industrial-dbt/)
 
 Google BigQueryとdbt Coreを使用して構築した、実運用を想定したアナリティクスエンジニアリングのケーススタディです。
 
