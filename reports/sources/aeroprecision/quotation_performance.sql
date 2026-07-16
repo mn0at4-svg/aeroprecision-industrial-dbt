@@ -1,0 +1,28 @@
+select
+    quote_id,
+    created_at,
+    quote_date,
+    quote_month,
+    customer_name,
+    product_id,
+    product_name,
+    category,
+    base_material,
+    requested_quantity,
+    quote_method,
+    created_by,
+    quote_lead_time_days,
+    response_speed_band,
+    status,
+    is_won,
+    quoted_price_usd,
+    estimated_total_cost_usd,
+    minimum_cfo_approved_price_usd,
+    cfo_target_gross_margin_pct,
+    actual_gross_margin_pct,
+    margin_variance_pct,
+    calculated_is_margin_violated,
+    margin_governance_status,
+    revenue_leak_usd
+from `aeroprecision-data-pipeline.analytics_manufacturing.fct_quotation_performance`
+order by created_at

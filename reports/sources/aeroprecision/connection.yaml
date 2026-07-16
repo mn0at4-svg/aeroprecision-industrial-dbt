@@ -1,0 +1,7 @@
+# AeroPrecision BigQuery connection for local Evidence development
+name: aeroprecision
+type: bigquery
+options:
+  authenticator: gcloud-cli
+  project_id: aeroprecision-data-pipeline
+  location: US
