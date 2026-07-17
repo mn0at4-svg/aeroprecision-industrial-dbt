@@ -1,0 +1,57 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "quote_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "created_at",
+    "type": "TIMESTAMP"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "customer_name",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "product_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "requested_quantity",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "spot_material_surcharge_pct",
+    "type": "FLOAT"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "quote_lead_time_days",
+    "type": "FLOAT"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "created_by",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "quoted_price_usd",
+    "type": "FLOAT"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "is_margin_violated",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "status",
+    "type": "STRING"
+  }
+]

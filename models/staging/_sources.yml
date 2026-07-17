@@ -4,7 +4,7 @@ sources:
   - name: manufacturing_raw
     description: Raw manufacturing and quotation data loaded from source CSV files.
     database: aeroprecision-data-pipeline
-    schema: raw_manufacturing
+    schema: "{{ var('raw_dataset', 'raw_manufacturing') }}"
 
     tables:
       - name: src_products

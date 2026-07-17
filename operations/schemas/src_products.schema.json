@@ -1,0 +1,42 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "product_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "product_name",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "category",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "base_material",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "raw_material_cost_usd",
+    "type": "FLOAT"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "estimated_labor_hours",
+    "type": "FLOAT"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "labor_rate_hourly_usd",
+    "type": "FLOAT"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "cfo_target_gross_margin_pct",
+    "type": "FLOAT"
+  }
+]

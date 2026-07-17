@@ -8,6 +8,9 @@ on:
       - "reports/**"
       - ".github/workflows/evidence-pages.yml"
   workflow_dispatch:
+  schedule:
+    # Every Monday at 06:17 JST (Sunday 21:17 UTC)
+    - cron: "17 21 * * 0"
 
 permissions:
   contents: read
@@ -18,22 +21,25 @@ concurrency:
   group: github-pages
   cancel-in-progress: true
 
+env:
+  DBT_PROFILES_DIR: ${{ github.workspace }}/.dbt
+
 jobs:
   build:
     name: Build Evidence dashboard
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v6
+      - name: Set up Python
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        uses: actions/setup-python@v6
         with:
-          node-version: "24"
-          cache: npm
-          cache-dependency-path: reports/package-lock.json
+          python-version: "3.13"
+          cache: pip
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v3
@@ -44,6 +50,52 @@ jobs:
 
       - name: Set up Google Cloud CLI
         uses: google-github-actions/setup-gcloud@v3
+
+      - name: Install dbt dependencies
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          dbt --version
+
+      - name: Create production dbt profile
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        shell: bash
+        run: |
+          mkdir -p "$DBT_PROFILES_DIR"
+          cat > "$DBT_PROFILES_DIR/profiles.yml" <<'EOF'
+          aeroprecision_industrial:
+            target: prod
+            outputs:
+              prod:
+                type: bigquery
+                method: oauth
+                project: aeroprecision-data-pipeline
+                dataset: analytics_manufacturing
+                location: US
+                threads: 4
+                job_execution_timeout_seconds: 300
+          EOF
+
+      - name: Restore and refresh Raw tables
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        shell: pwsh
+        run: ./operations/restore_raw.ps1 -Execute -ConfirmProductionReplace
+
+      - name: Validate production BigQuery connection
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: dbt debug --target prod
+
+      - name: Rebuild and test production models
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: dbt build --full-refresh --target prod
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: reports/package-lock.json
 
       - name: Install Evidence dependencies
         working-directory: reports
