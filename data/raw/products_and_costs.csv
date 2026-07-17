@@ -1,0 +1,41 @@
+product_id,product_name,category,base_material,raw_material_cost_usd,estimated_labor_hours,labor_rate_hourly_usd,cfo_target_gross_margin_pct
+AP-ACT-001,Electromechanical Linear Actuator,Actuators,Aerospace-Grade Aluminum 7075,318.57,6.2,85.0,0.276
+AP-ACT-002,High-Torque Rotary Actuator,Actuators,Aerospace-Grade Aluminum 7075,312.83,6.5,85.0,0.287
+AP-ACT-003,Flight-Control Servo Actuator,Actuators,Aerospace-Grade Aluminum 7075,367.32,6.6,85.0,0.258
+AP-ACT-004,Vacuum-Compatible Piezo Actuator,Actuators,Alloy 316L Stainless Steel,531.17,7.7,85.0,0.301
+AP-ACT-005,Precision Ball-Screw Actuator,Actuators,Alloy 316L Stainless Steel,540.18,8.3,85.0,0.296
+AP-ACT-006,Compact Hydraulic Rotary Actuator,Actuators,Aerospace-Grade Aluminum 7075,395.71,8.1,85.0,0.272
+AP-ACT-007,Cleanroom Wafer-Stage Actuator,Actuators,Aerospace-Grade Aluminum 7075,394.21,7.6,85.0,0.266
+AP-ACT-008,Explosion-Proof Valve Actuator,Actuators,Aerospace-Grade Aluminum 7075,430.59,8.8,85.0,0.273
+AP-ACT-009,Redundant Aerospace Trim Actuator,Actuators,Aerospace-Grade Aluminum 7075,419.18,8.3,85.0,0.256
+AP-ACT-010,High-Speed Voice-Coil Actuator,Actuators,Aerospace-Grade Aluminum 7075,422.33,9.8,85.0,0.302
+AP-ACT-011,Robotic End-Effector Actuator,Actuators,Aerospace-Grade Aluminum 7075,434.12,10.3,85.0,0.265
+AP-ACT-012,Cryogenic Positioning Actuator,Actuators,Aerospace-Grade Aluminum 7075,457.02,11.1,85.0,0.299
+AP-ACT-013,Smart Electrohydraulic Actuator,Actuators,Aerospace-Grade Aluminum 7075,465.98,9.4,85.0,0.305
+AP-LASER-001,Titanium Turbine Seal Segment,Laser-Cut Components,Aerospace-Grade Aluminum 7075,172.45,3.8,85.0,0.259
+AP-LASER-002,Micro-Perforated Heat Shield,Laser-Cut Components,Aerospace-Grade Aluminum 7075,164.75,3.8,85.0,0.27
+AP-LASER-003,Precision Injector Orifice Plate,Laser-Cut Components,Titanium-6Al-4V,362.53,5.0,85.0,0.254
+AP-LASER-004,Aerospace Honeycomb Support Bracket,Laser-Cut Components,Titanium-6Al-4V,389.16,5.5,85.0,0.283
+AP-LASER-005,Semiconductor Process Gas Manifold,Laser-Cut Components,Aerospace-Grade Aluminum 7075,186.55,4.8,85.0,0.264
+AP-LASER-006,Laser-Cut EMI Shield Assembly,Laser-Cut Components,Titanium-6Al-4V,357.82,6.2,85.0,0.28
+AP-LASER-007,Microfluidic Stainless Flow Plate,Laser-Cut Components,Titanium-6Al-4V,381.4,5.4,85.0,0.25
+AP-LASER-008,Satellite Thermal Isolation Bracket,Laser-Cut Components,Alloy 316L Stainless Steel,277.81,4.9,85.0,0.289
+AP-LASER-009,Precision Optical Mounting Flexure,Laser-Cut Components,Alloy 316L Stainless Steel,307.73,4.5,85.0,0.273
+AP-LASER-010,Battery Cooling Channel Plate,Laser-Cut Components,Alloy 316L Stainless Steel,301.89,5.1,85.0,0.274
+AP-LASER-011,Turbopump Shim and Spacer Kit,Laser-Cut Components,Alloy 316L Stainless Steel,326.32,5.8,85.0,0.277
+AP-LASER-012,Cleanroom Sensor Retainer Frame,Laser-Cut Components,Aerospace-Grade Aluminum 7075,243.22,4.9,85.0,0.283
+AP-LASER-013,High-Temperature Nozzle Insert,Laser-Cut Components,Alloy 316L Stainless Steel,313.24,5.4,85.0,0.263
+AP-VALVE-001,High-Pressure Titanium Control Valve,Valves,Titanium-6Al-4V,802.61,10.8,85.0,0.314
+AP-VALVE-002,Cryogenic Isolation Valve,Valves,Alloy 316L Stainless Steel,579.84,9.3,85.0,0.304
+AP-VALVE-003,Ultra-High Vacuum Gate Valve,Valves,Alloy 316L Stainless Steel,656.44,10.6,85.0,0.274
+AP-VALVE-004,Corrosion-Resistant Metering Valve,Valves,Titanium-6Al-4V,986.85,11.5,85.0,0.307
+AP-VALVE-005,Aerospace Fuel Shutoff Valve,Valves,Titanium-6Al-4V,943.51,13.6,85.0,0.325
+AP-VALVE-006,Precision Bellows-Sealed Valve,Valves,Alloy 316L Stainless Steel,728.65,9.7,85.0,0.322
+AP-VALVE-007,High-Cycle Poppet Valve,Valves,Titanium-6Al-4V,1005.46,14.1,85.0,0.323
+AP-VALVE-008,Cleanroom Diaphragm Valve,Valves,Titanium-6Al-4V,1085.68,13.4,85.0,0.336
+AP-VALVE-009,Subsea Pressure-Regulating Valve,Valves,Titanium-6Al-4V,1171.21,14.8,85.0,0.323
+AP-VALVE-010,Thermal Management Bypass Valve,Valves,Alloy 316L Stainless Steel,751.48,13.0,85.0,0.331
+AP-VALVE-011,Hydrogen Service Needle Valve,Valves,Alloy 316L Stainless Steel,793.73,11.5,85.0,0.32
+AP-VALVE-012,Orbital Propulsion Check Valve,Valves,Titanium-6Al-4V,1248.67,16.4,85.0,0.34
+AP-VALVE-013,High-Purity Gas Delivery Valve,Valves,Titanium-6Al-4V,1199.76,17.8,85.0,0.362
+AP-VALVE-014,Servo-Controlled Flow Valve,Valves,Alloy 316L Stainless Steel,875.38,13.8,85.0,0.319

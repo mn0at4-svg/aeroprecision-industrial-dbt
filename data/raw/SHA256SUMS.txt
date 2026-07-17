@@ -1,0 +1,2 @@
+5fbff47a71ab7459c1ca9f427a0815ff1d4e2f0c29ac313b565694495c272e1c  products_and_costs.csv
+64debe836dd62a3b526e035950c4257b04892873a025dae2a5208d899839ffcf  quotation_transactions.csv
