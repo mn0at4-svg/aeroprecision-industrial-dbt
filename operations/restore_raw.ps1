@@ -122,14 +122,7 @@ Invoke-RawTableLoad `
     -CsvPath $transactionsCsv `
     -SchemaPath $transactionsSchema
 
-$verificationQuery = @"
-SELECT 'src_products' AS table_name, COUNT(*) AS row_count
-FROM ``$ProjectId.$DatasetId.src_products``
-UNION ALL
-SELECT 'src_transactions' AS table_name, COUNT(*) AS row_count
-FROM ``$ProjectId.$DatasetId.src_transactions``
-ORDER BY table_name
-"@
+$verificationQuery = "SELECT 'src_products' AS table_name, COUNT(*) AS row_count FROM ``$ProjectId.$DatasetId.src_products`` UNION ALL SELECT 'src_transactions' AS table_name, COUNT(*) AS row_count FROM ``$ProjectId.$DatasetId.src_transactions`` ORDER BY table_name"
 
 Write-Host "Verifying restored BigQuery row counts..." -ForegroundColor Cyan
 
