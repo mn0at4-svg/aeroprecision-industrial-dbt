@@ -19,8 +19,6 @@ $productsSchema = Join-Path $schemaDirectory "src_products.schema.json"
 $transactionsSchema = Join-Path $schemaDirectory "src_transactions.schema.json"
 $hashManifest = Join-Path $dataDirectory "SHA256SUMS.txt"
 
-$tableExpirationSeconds = 5097600
-
 $requiredFiles = @(
     $productsCsv,
     $transactionsCsv,
@@ -92,21 +90,6 @@ function Invoke-RawTableLoad {
         throw "BigQuery load failed for $DatasetId.$TableName."
     }
 
-    Write-Host "Refreshing expiration for $DatasetId.$TableName..." -ForegroundColor Cyan
-
-    $expirationArguments = @(
-        "--quiet=true"
-        "--project_id=$ProjectId"
-        "update"
-        "--expiration=$tableExpirationSeconds"
-        "$DatasetId.$TableName"
-    )
-
-    & bq @expirationArguments
-
-    if ($LASTEXITCODE -ne 0) {
-        throw "Failed to refresh expiration for $DatasetId.$TableName."
-    }
 }
 
 Write-Host "Validating disaster-recovery files..." -ForegroundColor Cyan
