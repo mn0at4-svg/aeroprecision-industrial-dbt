@@ -1,5 +1,4 @@
 [CmdletBinding()]
-[CmdletBinding()]
 param(
     [string]$ProjectId = "aeroprecision-data-pipeline",
     [string]$DatasetId = "raw_manufacturing",
@@ -7,10 +6,11 @@ param(
     [switch]$ConfirmProductionReplace
 )
 
+Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
-$dataDirectory = Join-Path $repoRoot "data\raw"
+$dataDirectory = Join-Path (Join-Path $repoRoot "data") "raw"
 $schemaDirectory = Join-Path $PSScriptRoot "schemas"
 
 $productsCsv = Join-Path $dataDirectory "products_and_costs.csv"
@@ -27,41 +27,139 @@ $requiredFiles = @(
     $hashManifest
 )
 
+function Get-NormalizedSha256 {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)]
+        [string]$Path
+    )
+
+    $resolvedPath = (Resolve-Path -LiteralPath $Path).Path
+    $text = [System.IO.File]::ReadAllText($resolvedPath)
+
+    # Normalize Windows CRLF and legacy CR line endings to Unix LF.
+    $normalizedText = $text.Replace("`r`n", "`n").Replace("`r", "`n")
+
+    # Calculate SHA-256 using UTF-8 without a byte-order mark.
+    $utf8 = [System.Text.UTF8Encoding]::new($false)
+    $bytes = $utf8.GetBytes($normalizedText)
+    $sha256 = [System.Security.Cryptography.SHA256]::Create()
+
+    try {
+        return (
+            $sha256.ComputeHash($bytes) |
+            ForEach-Object { $_.ToString("X2") }
+        ) -join ""
+    }
+    finally {
+        $sha256.Dispose()
+    }
+}
+
+function Invoke-RawTableLoad {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)]
+        [string]$TableName,
+
+        [Parameter(Mandatory)]
+        [string]$CsvPath,
+
+        [Parameter(Mandatory)]
+        [string]$SchemaPath
+    )
+
+    Write-Host "Loading $DatasetId.$TableName..." -ForegroundColor Cyan
+
+    $loadArguments = @(
+        "--quiet=true"
+        "--project_id=$ProjectId"
+        "load"
+        "--location=US"
+        "--replace=true"
+        "--source_format=CSV"
+        "--skip_leading_rows=1"
+        "$DatasetId.$TableName"
+        $CsvPath
+        $SchemaPath
+    )
+
+    & bq @loadArguments
+
+    if ($LASTEXITCODE -ne 0) {
+        throw "BigQuery load failed for $DatasetId.$TableName."
+    }
+
+}
+
 Write-Host "Validating disaster-recovery files..." -ForegroundColor Cyan
 
 foreach ($file in $requiredFiles) {
-    if (-not (Test-Path $file)) {
+    if (-not (Test-Path -LiteralPath $file -PathType Leaf)) {
         throw "Required file not found: $file"
     }
 }
 
-# Validate that the schema files contain valid JSON.
-Get-Content $productsSchema -Raw | ConvertFrom-Json | Out-Null
-Get-Content $transactionsSchema -Raw | ConvertFrom-Json | Out-Null
+# Validate that both schema files contain valid JSON.
+Get-Content -LiteralPath $productsSchema -Raw |
+    ConvertFrom-Json |
+    Out-Null
 
-# Validate SHA-256 checksums.
-foreach ($line in Get-Content $hashManifest) {
-    if ($line -notmatch "^(?<Hash>[0-9a-fA-F]{64})\s{2}(?<Name>.+)$") {
+Get-Content -LiteralPath $transactionsSchema -Raw |
+    ConvertFrom-Json |
+    Out-Null
+
+# Validate the SHA-256 manifest.
+$manifestLines = @(
+    Get-Content -LiteralPath $hashManifest |
+    Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
+)
+
+if ($manifestLines.Count -ne 2) {
+    throw "SHA256SUMS.txt must contain exactly two entries."
+}
+
+$allowedFileNames = @(
+    "products_and_costs.csv",
+    "quotation_transactions.csv"
+)
+
+$validatedFileNames = [System.Collections.Generic.HashSet[string]]::new(
+    [System.StringComparer]::OrdinalIgnoreCase
+)
+
+foreach ($line in $manifestLines) {
+    if ($line -notmatch "^(?<Hash>[0-9a-fA-F]{64})\s{2}(?<Name>[^\\/]+)$") {
         throw "Invalid SHA256SUMS entry: $line"
     }
 
-    $expectedHash = $Matches.Hash.ToUpper()
+    $expectedHash = $Matches.Hash.ToUpperInvariant()
     $fileName = $Matches.Name
-    $filePath = Join-Path $dataDirectory $fileName
 
-    if (-not (Test-Path $filePath)) {
-        throw "Checksum target not found: $filePath"
+    if ($fileName -notin $allowedFileNames) {
+        throw "Unexpected checksum target: $fileName"
     }
 
-    $actualHash = (Get-FileHash $filePath -Algorithm SHA256).Hash
+    if (-not $validatedFileNames.Add($fileName)) {
+        throw "Duplicate checksum entry: $fileName"
+    }
+
+    $filePath = Join-Path $dataDirectory $fileName
+    $actualHash = Get-NormalizedSha256 -Path $filePath
 
     if ($actualHash -ne $expectedHash) {
         throw "Checksum mismatch: $fileName"
     }
 }
 
-$productCount = @(Import-Csv $productsCsv).Count
-$transactionCount = @(Import-Csv $transactionsCsv).Count
+foreach ($requiredName in $allowedFileNames) {
+    if (-not $validatedFileNames.Contains($requiredName)) {
+        throw "Missing checksum entry: $requiredName"
+    }
+}
+
+$productCount = @(Import-Csv -LiteralPath $productsCsv).Count
+$transactionCount = @(Import-Csv -LiteralPath $transactionsCsv).Count
 
 if ($productCount -ne 40) {
     throw "Expected 40 product rows, but found $productCount."
@@ -79,51 +177,20 @@ Write-Host "Schema JSON validation: PASS" -ForegroundColor Green
 if (-not $Execute) {
     Write-Host ""
     Write-Host "Validation only. BigQuery was not changed." -ForegroundColor Yellow
-    Write-Host "To perform recovery, run:"
-    Write-Host ".\operations\restore_raw.ps1 -Execute"
+    Write-Host "To restore production Raw tables, run:"
+    Write-Host ".\operations\restore_raw.ps1 -Execute -ConfirmProductionReplace"
     exit 0
+}
+
+if (
+    $DatasetId -eq "raw_manufacturing" -and
+    -not $ConfirmProductionReplace
+) {
+    throw "Production Raw replacement is blocked. Re-run with -ConfirmProductionReplace only during an approved recovery."
 }
 
 if (-not (Get-Command bq -ErrorAction SilentlyContinue)) {
     throw "The bq command was not found. Install or initialize Google Cloud CLI."
-}
-
-function Invoke-RawTableLoad {
-    param(
-        [string]$TableName,
-        [string]$CsvPath,
-        [string]$SchemaPath
-    )
-
-    Write-Host "Loading $DatasetId.$TableName..." -ForegroundColor Cyan
-
-    & bq `
-        --quiet=true `
-        --project_id=$ProjectId `
-        load `
-        --location=US `
-        --replace=true `
-        --source_format=CSV `
-        --skip_leading_rows=1 `
-        "$DatasetId.$TableName" `
-        $CsvPath `
-        $SchemaPath
-
-    if ($LASTEXITCODE -ne 0) {
-        throw "BigQuery load failed for $DatasetId.$TableName."
-    }
-    Write-Host "Refreshing expiration for $DatasetId.$TableName..." -ForegroundColor Cyan
-
-& bq `
-    --quiet=true `
-    --project_id=$ProjectId `
-    update `
-    --expiration=5184000 `
-    "$DatasetId.$TableName"
-
-if ($LASTEXITCODE -ne 0) {
-    throw "Failed to refresh expiration for $DatasetId.$TableName."
-}
 }
 
 Invoke-RawTableLoad `
@@ -136,19 +203,62 @@ Invoke-RawTableLoad `
     -CsvPath $transactionsCsv `
     -SchemaPath $transactionsSchema
 
-$verificationQuery = "SELECT 'src_products' AS table_name, COUNT(*) AS row_count FROM ``$ProjectId.$DatasetId.src_products`` UNION ALL SELECT 'src_transactions' AS table_name, COUNT(*) AS row_count FROM ``$ProjectId.$DatasetId.src_transactions`` ORDER BY table_name"
+$verificationQuery = "SELECT (SELECT COUNT(*) FROM ``$ProjectId.$DatasetId.src_products``) AS product_rows, (SELECT COUNT(*) FROM ``$ProjectId.$DatasetId.src_transactions``) AS transaction_rows"
 
 Write-Host "Verifying restored BigQuery row counts..." -ForegroundColor Cyan
 
-& bq `
-    --project_id=$ProjectId `
-    query `
-    --location=US `
-    --use_legacy_sql=false `
+$queryArguments = @(
+    "--quiet=true"
+    "--project_id=$ProjectId"
+    "query"
+    "--location=US"
+    "--use_legacy_sql=false"
+    "--format=json"
     $verificationQuery
+)
 
-if ($LASTEXITCODE -ne 0) {
+$verificationOutput = @(& bq @queryArguments)
+$queryExitCode = $LASTEXITCODE
+
+if ($queryExitCode -ne 0) {
     throw "BigQuery verification query failed."
 }
 
+try {
+    $verificationJson = [string]::Join(
+        [Environment]::NewLine,
+        [string[]]$verificationOutput
+    )
+
+    $parsedVerification = ConvertFrom-Json -InputObject $verificationJson
+    $verificationRows = @($parsedVerification)
+
+    if ($verificationRows.Count -ne 1) {
+        throw "Expected one verification row, but received $($verificationRows.Count)."
+    }
+
+    $verificationRow = $verificationRows[0]
+
+    $restoredProductCount = [System.Convert]::ToInt32(
+        $verificationRow.product_rows
+    )
+
+    $restoredTransactionCount = [System.Convert]::ToInt32(
+        $verificationRow.transaction_rows
+    )
+}
+catch {
+    throw "Could not parse BigQuery verification output: $($_.Exception.Message)"
+}
+
+if ($restoredProductCount -ne 40) {
+    throw "Expected 40 restored product rows, but found $restoredProductCount."
+}
+
+if ($restoredTransactionCount -ne 1000) {
+    throw "Expected 1000 restored transaction rows, but found $restoredTransactionCount."
+}
+
+Write-Host "Restored src_products rows: $restoredProductCount" -ForegroundColor Green
+Write-Host "Restored src_transactions rows: $restoredTransactionCount" -ForegroundColor Green
 Write-Host "Raw recovery completed." -ForegroundColor Green
