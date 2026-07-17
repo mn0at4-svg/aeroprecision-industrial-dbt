@@ -1,8 +1,10 @@
 [CmdletBinding()]
+[CmdletBinding()]
 param(
     [string]$ProjectId = "aeroprecision-data-pipeline",
     [string]$DatasetId = "raw_manufacturing",
-    [switch]$Execute
+    [switch]$Execute,
+    [switch]$ConfirmProductionReplace
 )
 
 $ErrorActionPreference = "Stop"
