@@ -1,5 +1,4 @@
 [CmdletBinding()]
-[CmdletBinding()]
 param(
     [string]$ProjectId = "aeroprecision-data-pipeline",
     [string]$DatasetId = "raw_manufacturing",
