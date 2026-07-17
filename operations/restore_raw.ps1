@@ -10,7 +10,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
-$dataDirectory = Join-Path $repoRoot "data\raw"
+$dataDirectory = Join-Path (Join-Path $repoRoot "data") "raw"
 $schemaDirectory = Join-Path $PSScriptRoot "schemas"
 
 $productsCsv = Join-Path $dataDirectory "products_and_costs.csv"
