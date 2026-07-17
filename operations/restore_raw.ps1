@@ -27,6 +27,57 @@ $requiredFiles = @(
     $hashManifest
 )
 
+function Get-NormalizedSha256 {
+    param(
+        [string]$Path
+    )
+
+    $text = [System.IO.File]::ReadAllText($Path)
+    $normalizedText = $text.Replace("`r`n", "`n").Replace("`r", "`n")
+    $utf8 = [System.Text.UTF8Encoding]::new($false)
+    $bytes = $utf8.GetBytes($normalizedText)
+    $sha256 = [System.Security.Cryptography.SHA256]::Create()
+
+    try {
+        return (
+            $sha256.ComputeHash($bytes) |
+            ForEach-Object { $_.ToString("X2") }
+        ) -join ""
+    }
+    finally {
+        $sha256.Dispose()
+    }
+}
+
+function Get-NormalizedSha256Local {
+    param([string]$Path)
+
+    $text = [System.IO.File]::ReadAllText($Path)
+    $normalizedText = $text.Replace("`r`n", "`n").Replace("`r", "`n")
+    $bytes = [System.Text.UTF8Encoding]::new($false).GetBytes($normalizedText)
+    $sha256 = [System.Security.Cryptography.SHA256]::Create()
+
+    try {
+        return (($sha256.ComputeHash($bytes) | ForEach-Object { $_.ToString("x2") }) -join "")
+    }
+    finally {
+        $sha256.Dispose()
+    }
+}
+
+$csvFiles = @(
+    ".\data\raw\products_and_costs.csv",
+    ".\data\raw\quotation_transactions.csv"
+)
+
+$csvFiles |
+    ForEach-Object {
+        "$(Get-NormalizedSha256Local -Path $_)  $(Split-Path $_ -Leaf)"
+    } |
+    Set-Content -Encoding ascii ".\data\raw\SHA256SUMS.txt"
+
+Remove-Item Function:\Get-NormalizedSha256Local
+
 Write-Host "Validating disaster-recovery files..." -ForegroundColor Cyan
 
 foreach ($file in $requiredFiles) {
@@ -53,7 +104,7 @@ foreach ($line in Get-Content $hashManifest) {
         throw "Checksum target not found: $filePath"
     }
 
-    $actualHash = (Get-FileHash $filePath -Algorithm SHA256).Hash
+    $actualHash = Get-NormalizedSha256 -Path $filePath
 
     if ($actualHash -ne $expectedHash) {
         throw "Checksum mismatch: $fileName"
