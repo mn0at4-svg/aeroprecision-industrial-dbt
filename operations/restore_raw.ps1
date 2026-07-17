@@ -112,6 +112,18 @@ function Invoke-RawTableLoad {
     if ($LASTEXITCODE -ne 0) {
         throw "BigQuery load failed for $DatasetId.$TableName."
     }
+    Write-Host "Refreshing expiration for $DatasetId.$TableName..." -ForegroundColor Cyan
+
+& bq `
+    --quiet=true `
+    --project_id=$ProjectId `
+    update `
+    --expiration=5184000 `
+    "$DatasetId.$TableName"
+
+if ($LASTEXITCODE -ne 0) {
+    throw "Failed to refresh expiration for $DatasetId.$TableName."
+}
 }
 
 Invoke-RawTableLoad `
