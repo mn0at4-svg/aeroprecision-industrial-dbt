@@ -19,7 +19,7 @@ $productsSchema = Join-Path $schemaDirectory "src_products.schema.json"
 $transactionsSchema = Join-Path $schemaDirectory "src_transactions.schema.json"
 $hashManifest = Join-Path $dataDirectory "SHA256SUMS.txt"
 
-$tableExpirationSeconds = 5184000
+$tableExpirationSeconds = 5097600
 
 $requiredFiles = @(
     $productsCsv,
