@@ -2,9 +2,9 @@
 
 ## AeroPrecision Industrial — BigQuery, dbt and Evidence Recovery
 
-Last verified: 2026-07-17  
-Project: `aeroprecision-data-pipeline`  
-BigQuery location: `US`
+- Last verified: 2026-07-17
+- Project: `aeroprecision-data-pipeline`
+- BigQuery location: `US`
 
 ## Purpose
 
