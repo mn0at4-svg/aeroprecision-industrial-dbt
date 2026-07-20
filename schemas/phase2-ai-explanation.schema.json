@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aeroprecision.example/schemas/phase2-ai-explanation.schema.json",
+  "title": "Phase 2 AI explanation draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "customer_explanation",
+    "internal_rationale",
+    "negotiation_option",
+    "risk_note"
+  ],
+  "properties": {
+    "customer_explanation": {"type": "string", "minLength": 40, "maxLength": 800},
+    "internal_rationale": {"type": "string", "minLength": 40, "maxLength": 800},
+    "negotiation_option": {"type": "string", "minLength": 30, "maxLength": 500},
+    "risk_note": {"type": "string", "minLength": 30, "maxLength": 500}
+  }
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "valid-output",
+    "payload": {
+      "customer_explanation": "This synthetic explanation clearly describes quotation scope and confirms that finalization remains subject to review.",
+      "internal_rationale": "This draft uses only supplied deterministic context and does not modify price, margin, or approval policy.",
+      "negotiation_option": "Discuss delivery timing while preserving the deterministic pricing result and the human approval requirement.",
+      "risk_note": "No exception is asserted, and the final decision remains with the named human approver."
+    },
+    "expected": true
+  },
+  {
+    "id": "extra-field",
+    "payload": {
+      "customer_explanation": "This synthetic explanation clearly describes quotation scope and confirms that finalization remains subject to review.",
+      "internal_rationale": "This draft uses only supplied deterministic context and does not modify price, margin, or approval policy.",
+      "negotiation_option": "Discuss delivery timing while preserving the deterministic pricing result and the human approval requirement.",
+      "risk_note": "No exception is asserted, and the final decision remains with the named human approver.",
+      "approved": true
+    },
+    "expected": false
+  },
+  {
+    "id": "missing-field",
+    "payload": {
+      "customer_explanation": "This synthetic explanation clearly describes quotation scope and confirms that finalization remains subject to review.",
+      "internal_rationale": "This draft uses only supplied deterministic context and does not modify price, margin, or approval policy.",
+      "risk_note": "No exception is asserted, and the final decision remains with the named human approver."
+    },
+    "expected": false
+  }
+]
