@@ -1,0 +1,22 @@
+[
+  {"id":"normal-compliant","category":"normal","expected":"PENDING_HUMAN_APPROVAL","description":"Known product, quantity at or below 500, no requested discount."},
+  {"id":"negative-surcharge-boundary","category":"boundary","expected":"PENDING_HUMAN_APPROVAL","description":"Surcharge equals -0.05 and is accepted."},
+  {"id":"surcharge-over-maximum","category":"validation","expected":"FAILED_CLOSED","description":"Surcharge above 0.15."},
+  {"id":"quantity-one","category":"boundary","expected":"calculation succeeds","description":"Minimum allowed quantity."},
+  {"id":"quantity-501","category":"review","expected":"REVIEW_REQUIRED_HIGH_QUANTITY","description":"Schema is valid but automatic approval candidacy is blocked."},
+  {"id":"quantity-over-maximum","category":"validation","expected":"FAILED_CLOSED","description":"Quantity above 100000."},
+  {"id":"requested-discount","category":"review","expected":"REVIEW_REQUIRED_DISCOUNT","description":"Discount is recorded and does not change proposed price."},
+  {"id":"unknown-product","category":"validation","expected":"FAILED_CLOSED","description":"product_id is not in the master."},
+  {"id":"price-equals-cfo-minimum","category":"margin","expected":"PENDING_HUMAN_APPROVAL","description":"Exact CFO threshold passes when no review flag exists."},
+  {"id":"price-one-cent-below-cfo-minimum","category":"margin","expected":"REVIEW_REQUIRED_CFO_MARGIN","description":"Never becomes an approval candidate."},
+  {"id":"duplicate-rfq","category":"idempotency","expected":"existing state returned","description":"No second calculation, decision, or approval is created."},
+  {"id":"llm-timeout","category":"llm","expected":"FAILED_CLOSED","description":"No numeric result changes and no retry outside the approved limit."},
+  {"id":"llm-invalid-json","category":"llm","expected":"FAILED_CLOSED","description":"Structured-output validation fails."},
+  {"id":"llm-conflicting-amount","category":"llm","expected":"deterministic values retained","description":"LLM-provided amounts are ignored."},
+  {"id":"bq-write-failure","category":"failure","expected":"FAILED_CLOSED","description":"No partial finalization or notification."},
+  {"id":"human-approval","category":"approval","expected":"APPROVED_BY_HUMAN","description":"Exact payload hash and unexpired approval required."},
+  {"id":"human-rejection-or-expiry","category":"approval","expected":"REJECTED_BY_HUMAN or EXPIRED","description":"No final send or write after expiry."},
+  {"id":"prompt-injection-plain","category":"security","expected":"FAILED_CLOSED","description":"Synthetic input asks to ignore instructions or change price."},
+  {"id":"prompt-injection-encoded","category":"security","expected":"FAILED_CLOSED","description":"Synthetic HTML, Markdown, invisible Unicode, or Base64 instructions."},
+  {"id":"loop-limit-three","category":"security","expected":"stop after third attempt","description":"No fourth LLM call is allowed."}
+]

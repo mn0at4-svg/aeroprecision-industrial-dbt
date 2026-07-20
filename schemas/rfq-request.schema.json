@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aeroprecision.example/schemas/rfq-request.schema.json",
+  "title": "AeroPrecision RFQ request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["rfq_id", "customer_name", "product_id", "requested_quantity", "spot_material_surcharge_pct", "requested_delivery_date", "requested_discount_pct", "sales_rep", "request_channel"],
+  "properties": {
+    "rfq_id": {"type": "string", "pattern": "^RFQ-[0-9]{4}-[0-9]{5}$", "maxLength": 14},
+    "customer_name": {"type": "string", "minLength": 1, "maxLength": 120},
+    "product_id": {"type": "string", "pattern": "^[A-Z0-9-]{3,40}$", "maxLength": 40},
+    "requested_quantity": {"type": "integer", "minimum": 1, "maximum": 100000},
+    "spot_material_surcharge_pct": {"type": "number", "minimum": -0.05, "maximum": 0.15},
+    "requested_delivery_date": {"type": "string", "format": "date"},
+    "requested_discount_pct": {"type": "number", "minimum": 0, "maximum": 0.3},
+    "sales_rep": {"type": "string", "minLength": 1, "maxLength": 120},
+    "request_channel": {"type": "string", "enum": ["webhook", "manual_test"]}
+  }
+}
