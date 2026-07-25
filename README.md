@@ -648,3 +648,7 @@ Purdue MBA<br>
 - データガバナンス
 - AI見積自動化
 - CFOマージン・Revenue Leak管理
+## Phase 2 n8n Local RFQ Demo
+
+- [Phase 2 demo evidence](docs/phase2/11_phase2_n8n_demo_evidence.md)
+- [Sanitized n8n workflow export](workflows/phase2/rfq-quotation-local.workflow.json)
