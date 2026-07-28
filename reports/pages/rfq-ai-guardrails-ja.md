@@ -6,6 +6,11 @@
 
 ## エグゼクティブサマリー
 
+## 設計全体
+
+![権限境界の図](https://mn0at4-svg.github.io/aeroprecision-industrial-dbt/phase4/authority-boundary-ja.svg)
+
+
 製造業のRFQ見積には、原価、粗利率、納期、顧客との信頼に影響する判断が含まれます。LLMは説明や情報整理を速くできますが、原価計算や承認の権限を持つべきではありません。
 
 このケーススタディは、合成製造データを用いた **AeroPrecision Industrial** を題材に、テスト可能なデータ基盤、決定論的な見積コントロール、上限付きのLLM補助、可観測性、Human Approval境界を統合した設計を示します。
@@ -50,6 +55,11 @@
 
 ## 合成データによる制御試験の証跡
 
+## 上限付きリトライとfail-closed
+
+![上限付きリトライとfail-closedの図](https://mn0at4-svg.github.io/aeroprecision-industrial-dbt/phase4/bounded-retry-ja.svg)
+
+
 受入試験には合成L0/L1データだけを使い、計算・承認の境界を越えずに上限付きループが動くことを確認しました。
 
 | ケース | LLM呼び出し | Prompt tokens | Output tokens | 処理時間 | 結果 |
@@ -61,6 +71,9 @@
 重要なのは、AI呼び出しが常に成功することではありません。失敗または信頼できない出力が、財務コントロールやHuman Approval境界を緩めないことです。
 
 ## unsafeな内容を保持しない可観測性
+
+![AI可観測性の図](https://mn0at4-svg.github.io/aeroprecision-industrial-dbt/phase4/observability-ja.svg)
+
 
 n8nからlocal self-hosted Langfuseへ、OTLP HTTPで匿名化した運用メタデータを送信します。raw promptやraw LLM outputは保存しません。
 
