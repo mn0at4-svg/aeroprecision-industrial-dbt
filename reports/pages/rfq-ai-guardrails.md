@@ -6,6 +6,11 @@
 
 ## Executive summary
 
+## Architecture at a glance
+
+![Authority boundary diagram](https://mn0at4-svg.github.io/aeroprecision-industrial-dbt/phase4/authority-boundary-en.svg)
+
+
 Manufacturing RFQs combine commercial urgency with decisions that materially affect cost, margin, delivery commitments, and customer trust. An LLM can make the explanation layer faster and more useful, but it should not become the authority for financial calculation or approval.
 
 This portfolio demonstrates an AI Ops design for a synthetic manufacturing environment, **AeroPrecision Industrial**. It combines a tested data foundation, deterministic quotation controls, bounded LLM assistance, observability, and a Human Approval boundary.
@@ -50,6 +55,11 @@ This boundary protects the business from plausible but unverified model output. 
 
 ## Evidence from controlled synthetic tests
 
+## Bounded retry and fail-closed
+
+![Bounded retry and fail-closed diagram](https://mn0at4-svg.github.io/aeroprecision-industrial-dbt/phase4/bounded-retry-en.svg)
+
+
 The acceptance tests used synthetic L0/L1 data only. They exercised the bounded-loop behavior without allowing the model to bypass the calculation or approval controls.
 
 | Scenario | LLM calls | Prompt tokens | Output tokens | Latency | Outcome |
@@ -61,6 +71,9 @@ The acceptance tests used synthetic L0/L1 data only. They exercised the bounded-
 The important result is not that every AI call succeeds. It is that a failed or untrusted call cannot weaken the financial or human-control boundary.
 
 ## Observability without unsafe content retention
+
+![Observable AI operations diagram](https://mn0at4-svg.github.io/aeroprecision-industrial-dbt/phase4/observability-en.svg)
+
 
 The workflow sends redacted operational metadata to local self-hosted Langfuse through OTLP HTTP. It does **not** retain raw prompts or raw LLM output.
 
