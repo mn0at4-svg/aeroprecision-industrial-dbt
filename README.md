@@ -657,7 +657,8 @@ Purdue MBA<br>
 
 This repository includes a portfolio case study showing how deterministic finance controls and Human Approval remain authoritative while the LLM is bounded, observable, and fail-closed.
 
-- [Read the recruiter-facing case study](reports/pages/rfq-ai-guardrails.md)
+- [Read the recruiter-facing case study — English](reports/pages/rfq-ai-guardrails.md)
+- [採用担当者向けケーススタディ — 日本語](reports/pages/rfq-ai-guardrails-ja.md)
 - [Review the visual storyboard](docs/phase4/01_visual_storyboard.md)
 - [Read the English and Japanese teaser scripts](docs/phase4/02_linkedin_teaser_scripts.md)
 - [Read the English and Japanese technical demo scripts](docs/phase4/03_technical_demo_scripts.md)

@@ -1,5 +1,7 @@
 # Manufacturing RFQ Automation with AI Guardrails
 
+[English](https://mn0at4-svg.github.io/aeroprecision-industrial-dbt/rfq-ai-guardrails/) | [日本語](https://mn0at4-svg.github.io/aeroprecision-industrial-dbt/rfq-ai-guardrails-ja/)
+
 > I designed a manufacturing RFQ automation workflow where deterministic finance controls and human approval remain authoritative, while the LLM is bounded, observable, and fail-closed.
 
 ## Executive summary
@@ -95,12 +97,12 @@ The value is not a claim that AI can replace accountable decision-making. It is 
 
 ## Explore the technical evidence
 
-- [Phase 2 scope and decisions](../../docs/phase2/01_scope_and_decisions.md)
-- [Deterministic calculation specification](../../docs/phase2/02_deterministic_calculation_spec.md)
-- [Human Approval and audit specification](../../docs/phase2/03_human_approval_and_audit_spec.md)
-- [Bounded-loop engineering design](../../docs/phase2/08_bounded_loop_engineering_design.md)
-- [Phase 2 demo evidence](../../docs/phase2/11_phase2_n8n_demo_evidence.md)
-- [Langfuse observability design](../../docs/phase3/01_langfuse_observability_design.md)
-- [Local integration evidence](../../docs/phase3/04_local_integration_evidence.md)
+- [Phase 2 scope and decisions](https://github.com/mn0at4-svg/aeroprecision-industrial-dbt/blob/main/docs/phase2/01_scope_and_decisions.md)
+- [Deterministic calculation specification](https://github.com/mn0at4-svg/aeroprecision-industrial-dbt/blob/main/docs/phase2/02_deterministic_calculation_spec.md)
+- [Human Approval and audit specification](https://github.com/mn0at4-svg/aeroprecision-industrial-dbt/blob/main/docs/phase2/03_human_approval_and_audit_spec.md)
+- [Bounded-loop engineering design](https://github.com/mn0at4-svg/aeroprecision-industrial-dbt/blob/main/docs/phase2/08_bounded_loop_engineering_design.md)
+- [Phase 2 demo evidence](https://github.com/mn0at4-svg/aeroprecision-industrial-dbt/blob/main/docs/phase2/11_phase2_n8n_demo_evidence.md)
+- [Langfuse observability design](https://github.com/mn0at4-svg/aeroprecision-industrial-dbt/blob/main/docs/phase3/01_langfuse_observability_design.md)
+- [Local integration evidence](https://github.com/mn0at4-svg/aeroprecision-industrial-dbt/blob/main/docs/phase3/04_local_integration_evidence.md)
 
-[Return to the operational dashboard](./)
+[Return to the operational dashboard](https://mn0at4-svg.github.io/aeroprecision-industrial-dbt/)
