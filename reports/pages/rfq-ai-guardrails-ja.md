@@ -95,12 +95,12 @@ n8nからlocal self-hosted Langfuseへ、OTLP HTTPで匿名化した運用メタ
 
 ## 技術証跡
 
-- [Phase 2のスコープと判断](../../docs/phase2/01_scope_and_decisions.md)
-- [決定論的な計算仕様](../../docs/phase2/02_deterministic_calculation_spec.md)
-- [Human Approvalと監査仕様](../../docs/phase2/03_human_approval_and_audit_spec.md)
-- [上限付きループの設計](../../docs/phase2/08_bounded_loop_engineering_design.md)
-- [Phase 2デモの証跡](../../docs/phase2/11_phase2_n8n_demo_evidence.md)
-- [Langfuse可観測性の設計](../../docs/phase3/01_langfuse_observability_design.md)
-- [ローカル統合証跡](../../docs/phase3/04_local_integration_evidence.md)
+- [Phase 2のスコープと判断](https://github.com/mn0at4-svg/aeroprecision-industrial-dbt/blob/main/docs/phase2/01_scope_and_decisions.md)
+- [決定論的な計算仕様](https://github.com/mn0at4-svg/aeroprecision-industrial-dbt/blob/main/docs/phase2/02_deterministic_calculation_spec.md)
+- [Human Approvalと監査仕様](https://github.com/mn0at4-svg/aeroprecision-industrial-dbt/blob/main/docs/phase2/03_human_approval_and_audit_spec.md)
+- [上限付きループの設計](https://github.com/mn0at4-svg/aeroprecision-industrial-dbt/blob/main/docs/phase2/08_bounded_loop_engineering_design.md)
+- [Phase 2デモの証跡](https://github.com/mn0at4-svg/aeroprecision-industrial-dbt/blob/main/docs/phase2/11_phase2_n8n_demo_evidence.md)
+- [Langfuse可観測性の設計](https://github.com/mn0at4-svg/aeroprecision-industrial-dbt/blob/main/docs/phase3/01_langfuse_observability_design.md)
+- [ローカル統合証跡](https://github.com/mn0at4-svg/aeroprecision-industrial-dbt/blob/main/docs/phase3/04_local_integration_evidence.md)
 
-[既存の運用ダッシュボードへ戻る](./)
+[既存の運用ダッシュボードへ戻る](https://mn0at4-svg.github.io/aeroprecision-industrial-dbt/)
