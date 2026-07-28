@@ -652,3 +652,15 @@ Purdue MBA<br>
 
 - [Phase 2 demo evidence](docs/phase2/11_phase2_n8n_demo_evidence.md)
 - [Sanitized n8n workflow export](workflows/phase2/rfq-quotation-local.workflow.json)
+
+## Portfolio Case Study: Manufacturing RFQ Automation with AI Guardrails
+
+This repository includes a portfolio case study showing how deterministic finance controls and Human Approval remain authoritative while the LLM is bounded, observable, and fail-closed.
+
+- [Read the recruiter-facing case study](reports/pages/rfq-ai-guardrails.md)
+- [Review the visual storyboard](docs/phase4/01_visual_storyboard.md)
+- [Read the English and Japanese teaser scripts](docs/phase4/02_linkedin_teaser_scripts.md)
+- [Read the English and Japanese technical demo scripts](docs/phase4/03_technical_demo_scripts.md)
+- [Review the recording safety checklist](docs/phase4/04_recording_secret_information_checklist.md)
+
+The case study uses synthetic L0/L1 data only. It does not expose credentials, raw prompts, raw LLM output, or production customer data.
