@@ -12,7 +12,7 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        0,
+        -640,
         0
       ],
       "id": "78b98a07-ed2f-427b-a001-f7151579e893",
@@ -21,13 +21,13 @@
     {
       "parameters": {
         "mode": "raw",
-        "jsonOutput": "{\n  \"rfq_id\": \"RFQ-2026-00005\",\n  \"customer_name\": \"Example Aerospace\",\n  \"product_id\": \"AP-ACT-001\",\n  \"requested_quantity\": 100,\n  \"spot_material_surcharge_pct\": 0.08,\n  \"requested_delivery_date\": \"2026-12-31\",\n  \"requested_discount_pct\": 0,\n  \"sales_rep\": \"Synthetic Sales Rep\",\n  \"request_channel\": \"manual_test\",\n  \"proposed_quote_price_usd\": 125000\n}",
+        "jsonOutput": "{\n  \"rfq_id\": \"RFQ-2026-00005\",\n  \"customer_name\": \"Example Aerospace\",\n  \"product_id\": \"AP-ACT-001\",\n  \"requested_quantity\": 100,\n  \"spot_material_surcharge_pct\": 0.08,\n  \"requested_delivery_date\": \"2026-12-31\",\n  \"requested_discount_pct\": 0,\n  \"sales_rep\": \"Synthetic Sales Rep\",\n  \"request_channel\": \"manual_test\",\n  \"sales_rep\": \"Synthetic Sales Rep\",\n\"request_channel\": \"manual_test\"\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        208,
+        -432,
         0
       ],
       "id": "31631813-42ad-48ce-9371-4a9c73e15201",
@@ -40,7 +40,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        416,
+        -224,
         0
       ],
       "id": "30d1519d-02f1-4088-8af4-d5db7331166b",
@@ -60,7 +60,7 @@
       "type": "n8n-nodes-base.googleBigQuery",
       "typeVersion": 2.1,
       "position": [
-        832,
+        560,
         0
       ],
       "id": "d3c1ac98-92b5-4494-b13f-a67222f52747",
@@ -69,12 +69,12 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "const rfq = $('Validate RFQ (Deterministic)').first().json;\nconst product = $json;\n\nconst round2 = (value) =>\n  Math.round((value + Number.EPSILON) * 100) / 100;\n\nconst quantity = Number(rfq.requested_quantity);\nconst surcharge = Number(rfq.spot_material_surcharge_pct);\nconst targetMargin = Number(product.cfo_target_gross_margin_pct);\nconst proposedPrice = Number(rfq.proposed_quote_price_usd);\n\nconst materialCost = round2(\n  Number(product.raw_material_cost_usd) * (1 + surcharge)\n);\n\nconst laborCost = round2(\n  Number(product.estimated_labor_hours) *\n  Number(product.labor_rate_hourly_usd)\n);\n\nconst unitCost = round2(materialCost + laborCost);\nconst totalCost = round2(unitCost * quantity);\nconst minimumCfoPrice = round2(\n  totalCost / (1 - targetMargin)\n);\n\nconst realizedMargin = round2(\n  (proposedPrice - totalCost) / proposedPrice\n);\n\nconst isMarginCompliant =\n  proposedPrice >= minimumCfoPrice &&\n  realizedMargin >= targetMargin;\n\nreturn {\n  json: {\n    ...rfq,\n    ...product,\n    material_cost_usd: materialCost,\n    labor_cost_usd: laborCost,\n    unit_cost_usd: unitCost,\n    total_cost_usd: totalCost,\n    minimum_cfo_approved_price_usd: minimumCfoPrice,\n    proposed_quote_price_usd: proposedPrice,\n    realized_gross_margin_pct: realizedMargin,\n    is_margin_compliant: isMarginCompliant,\n    decision_code: isMarginCompliant\n      ? \"APPROVAL_CANDIDATE_PENDING_HUMAN\"\n      : \"REVIEW_REQUIRED\",\n    calculation_version: \"phase2-calc-v1\"\n  }\n};"
+        "jsCode": "const rfq = $('Validate RFQ (Deterministic)').first().json;\nconst product = $json;\n\nconst round2 = (value) =>\n  Math.round((value + Number.EPSILON) * 100) / 100;\n\nconst quantity = Number(rfq.requested_quantity);\nconst surcharge = Number(rfq.spot_material_surcharge_pct);\nconst targetMargin = Number(product.cfo_target_gross_margin_pct);\nconst proposedPrice = Number(product.proposed_quote_price_usd);\n\nconst materialCost = round2(\n  Number(product.raw_material_cost_usd) * (1 + surcharge)\n);\n\nconst laborCost = round2(\n  Number(product.estimated_labor_hours) *\n  Number(product.labor_rate_hourly_usd)\n);\n\nconst unitCost = round2(materialCost + laborCost);\nconst totalCost = round2(unitCost * quantity);\nconst minimumCfoPrice = round2(\n  totalCost / (1 - targetMargin)\n);\n\nconst realizedMargin = round2(\n  (proposedPrice - totalCost) / proposedPrice\n);\n\nconst isMarginCompliant =\n  proposedPrice >= minimumCfoPrice &&\n  realizedMargin >= targetMargin;\n\nreturn {\n  json: {\n    ...rfq,\n    ...product,\n    material_cost_usd: materialCost,\n    labor_cost_usd: laborCost,\n    unit_cost_usd: unitCost,\n    total_cost_usd: totalCost,\n    minimum_cfo_approved_price_usd: minimumCfoPrice,\n    proposed_quote_price_usd: proposedPrice,\n    realized_gross_margin_pct: realizedMargin,\n    is_margin_compliant: isMarginCompliant,\n    decision_code: isMarginCompliant\n      ? \"APPROVAL_CANDIDATE_PENDING_HUMAN\"\n      : \"REVIEW_REQUIRED\",\n    calculation_version: \"phase2-calc-v1\"\n  }\n};"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1040,
+        976,
         0
       ],
       "id": "86a0061d-e140-40a1-993a-4fc23fe64925",
@@ -108,7 +108,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1248,
+        1664,
         0
       ],
       "id": "cb37e27e-db14-4f64-a02f-a7fcd78a445c",
@@ -122,7 +122,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1456,
+        1872,
         -96
       ],
       "id": "6579544e-e7bf-4aa6-84ee-0afbd47e3dd9",
@@ -136,7 +136,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3664,
+        4080,
         640
       ],
       "id": "f6732330-6390-40e1-ad37-fec98f9b87a0",
@@ -170,7 +170,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1872,
+        2288,
         -96
       ],
       "id": "3c366822-6121-4b07-b944-ed6d524b76a1",
@@ -184,7 +184,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1440,
+        1856,
         432
       ],
       "id": "d19b73f4-5b56-4b07-bc33-8ae05193fe87",
@@ -197,7 +197,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2880,
+        3296,
         928
       ],
       "id": "e779f158-dd35-4816-876e-63aff6ec762f",
@@ -211,7 +211,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2080,
+        2496,
         -192
       ],
       "id": "3280c2a6-19d0-48bd-a386-f39ff7a0095e",
@@ -225,7 +225,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2288,
+        2704,
         -128
       ],
       "id": "997cf17a-224b-4bf5-9861-945c92e4b1fe",
@@ -239,7 +239,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2496,
+        2912,
         -128
       ],
       "id": "a500dfdf-ff66-4fda-8e2b-6f289d28adc3",
@@ -253,7 +253,7 @@
       "type": "n8n-nodes-base.crypto",
       "typeVersion": 2,
       "position": [
-        2704,
+        3120,
         -128
       ],
       "id": "12ac7ee7-976a-489f-b38e-0a237d16c1db",
@@ -299,7 +299,7 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        2912,
+        3328,
         -128
       ],
       "id": "5507df95-a1a7-4784-83d0-34098d981a15",
@@ -314,7 +314,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3120,
+        3536,
         -128
       ],
       "id": "274346c8-f03d-48b1-9486-ba5e88f1d3fc",
@@ -348,7 +348,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        3328,
+        3744,
         -128
       ],
       "id": "89436f2a-652d-47d1-ab19-3b72e573ddf8",
@@ -362,7 +362,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3568,
+        3984,
         192
       ],
       "id": "beb51be3-6813-4e7f-be8f-20777a227d22",
@@ -384,8 +384,8 @@
       "type": "n8n-nodes-base.googleBigQuery",
       "typeVersion": 2.1,
       "position": [
-        4592,
-        -416
+        4624,
+        -656
       ],
       "id": "78cfb7e7-75fc-49e4-aa84-d7e73151ff76",
       "name": "Check RFQ Idempotency",
@@ -418,8 +418,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        4800,
-        -416
+        4832,
+        -656
       ],
       "id": "bcd5c5b3-a8cb-4c61-83a4-d4b2dca1b2dc",
       "name": "New RFQ Gate",
@@ -433,7 +433,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3776,
+        4192,
         -16
       ],
       "id": "4f4e25a4-e4cf-42e2-9231-7eb42a37d031",
@@ -447,7 +447,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3760,
+        4176,
         -224
       ],
       "id": "101b4b71-57f5-4768-9d51-a2f3b9138d71",
@@ -461,7 +461,7 @@
       "type": "n8n-nodes-base.crypto",
       "typeVersion": 2,
       "position": [
-        3952,
+        4368,
         -224
       ],
       "id": "b9fe8bcf-571e-44f9-92de-a5ba835c0a9e",
@@ -475,7 +475,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        4176,
+        4592,
         -224
       ],
       "id": "8b814e72-330b-49a6-b49f-52d45071d607",
@@ -497,8 +497,8 @@
       "type": "n8n-nodes-base.googleBigQuery",
       "typeVersion": 2.1,
       "position": [
-        5088,
-        -400
+        5120,
+        -640
       ],
       "id": "75a1b333-c5fe-4d92-9f1f-de67f6c50e75",
       "name": "Persist Approved RFQ Bundle",
@@ -527,7 +527,7 @@
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
       "position": [
-        3536,
+        3952,
         -224
       ],
       "id": "8a1d5044-43ff-4d43-a504-bfced53a76c7",
@@ -556,7 +556,7 @@
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
       "position": [
-        3584,
+        4000,
         -16
       ],
       "id": "1e53e6bd-4c02-46e2-9a00-159133c5a8e8",
@@ -685,7 +685,7 @@
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
       "position": [
-        4384,
+        4800,
         -224
       ],
       "id": "e7ad17a7-3a56-4de9-87ca-c2dfed5ed47f",
@@ -699,7 +699,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1472,
+        1888,
         208
       ],
       "id": "6a74ccd6-87eb-431c-9475-d7b9b8348640",
@@ -728,8 +728,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        1680,
-        208
+        2272,
+        224
       ],
       "id": "1b3bd73e-0d54-4878-81a1-591f86bee8f6",
       "name": "Ollama Explanation"
@@ -737,13 +737,13 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "const ollamaResponse = $json;\n\nconst source =\n  $(\"Build Ollama Request\").item.json;\n\nconst {\n  ollama_request_body,\n  ...originalData\n} = source;\n\nconst validationErrors = [];\nlet parsedOutput = null;\n\nif (\n  source.llm_test_force_all_attempts_failure === true\n) {\n  validationErrors.push(\n    \"SYNTHETIC_FORCED_ALL_ATTEMPTS_FAILURE\"\n  );\n}\n\nif (\n  source.llm_test_force_first_attempt_failure === true &&\n  Number(source.llm_attempt ?? 1) === 1\n) {\n  validationErrors.push(\n    \"SYNTHETIC_FORCED_FIRST_ATTEMPT_FAILURE\"\n  );\n}\n\nif (ollamaResponse.done !== true) {\n  validationErrors.push(\"OLLAMA_NOT_COMPLETED\");\n}\n\nif (ollamaResponse.done_reason !== \"stop\") {\n  validationErrors.push(\n    `INVALID_STOP_REASON:${ollamaResponse.done_reason ?? \"MISSING\"}`\n  );\n}\n\nconst rawOutput =\n  ollamaResponse.message?.content ?? \"\";\n\ntry {\n  parsedOutput = JSON.parse(rawOutput);\n} catch (error) {\n  validationErrors.push(\"INVALID_JSON\");\n}\n\nif (parsedOutput) {\n  const expectedKeys = [\n    \"customer_explanation\",\n    \"exception_reason\",\n    \"internal_rationale\",\n    \"negotiation_options\"\n  ];\n\n  const actualKeys =\n    Object.keys(parsedOutput).sort();\n\n  if (\n    JSON.stringify(actualKeys) !==\n    JSON.stringify(expectedKeys)\n  ) {\n    validationErrors.push(\"INVALID_SCHEMA_KEYS\");\n  }\n\n  if (\n    typeof parsedOutput.customer_explanation !== \"string\" ||\n    typeof parsedOutput.internal_rationale !== \"string\"\n  ) {\n    validationErrors.push(\"INVALID_EXPLANATION_TYPES\");\n  }\n\n  if (\n    !Array.isArray(parsedOutput.negotiation_options) ||\n    parsedOutput.negotiation_options.length > 3\n  ) {\n    validationErrors.push(\"INVALID_NEGOTIATION_OPTIONS\");\n  }\n\n  if (parsedOutput.exception_reason !== null) {\n    validationErrors.push(\n      \"UNEXPECTED_EXCEPTION_REASON\"\n    );\n  }\n\n  const completeText = [\n    parsedOutput.customer_explanation ?? \"\",\n    parsedOutput.internal_rationale ?? \"\",\n    ...(Array.isArray(parsedOutput.negotiation_options)\n      ? parsedOutput.negotiation_options\n      : [])\n  ].join(\"\\n\");\n\n  const customerJapanese =\n    /[\\u3040-\\u30ff\\u3400-\\u9fff]/.test(\n      parsedOutput.customer_explanation ?? \"\"\n    );\n\n  const internalJapanese =\n    /[\\u3040-\\u30ff\\u3400-\\u9fff]/.test(\n      parsedOutput.internal_rationale ?? \"\"\n    );\n\n  if (!customerJapanese || !internalJapanese) {\n    validationErrors.push(\"JAPANESE_OUTPUT_REQUIRED\");\n  }\n\n  if (/[0-9０-９]/.test(completeText)) {\n    validationErrors.push(\n      \"NUMERIC_VALUE_FOUND_IN_AI_TEXT\"\n    );\n  }\n\n  const prohibitedPattern =\n    /承認します|承認しました|承認済み|却下します|価格を変更|価格変更|値引き|値上げ|adjust.+price|lower.+price|raise.+price|approved|rejected/i;\n\n  if (prohibitedPattern.test(completeText)) {\n    validationErrors.push(\n      \"PROHIBITED_POLICY_LANGUAGE\"\n    );\n  }\n}\n\nconst llmOutputValid =\n  validationErrors.length === 0;\n\nreturn {\n  json: {\n    ...originalData,\n\n    customer_explanation:\n      parsedOutput?.customer_explanation ?? null,\n\n    internal_rationale:\n      parsedOutput?.internal_rationale ?? null,\n\n    negotiation_options:\n      parsedOutput?.negotiation_options ?? [],\n\n    exception_reason:\n      parsedOutput?.exception_reason ?? null,\n\n    ai_status:\n      llmOutputValid\n        ? \"OLLAMA_GENERATED\"\n        : \"OLLAMA_VALIDATION_FAILED\",\n\n    prompt_version:\n      \"phase2-ollama-explanation-v1\",\n\n    llm_provider: \"ollama\",\n    llm_model: ollamaResponse.model ?? \"qwen3:8b\",\n\n    llm_output_valid: llmOutputValid,\n    llm_validation_errors: validationErrors,\n\n    loop_count: 1,\n\n    loop_stop_reason:\n      llmOutputValid\n        ? \"FIRST_ATTEMPT_PASS\"\n        : \"VALIDATION_FAILED\",\n\n    llm_prompt_tokens:\n      ollamaResponse.prompt_eval_count ?? null,\n\n    llm_output_tokens:\n      ollamaResponse.eval_count ?? null,\n\n    llm_latency_ms:\n      Math.round(\n        Number(ollamaResponse.total_duration ?? 0) /\n        1000000\n      ),\n\n    llm_cost_usd: 0,\n\n    llm_raw_output: rawOutput,\n\n    llm_completed_at:\n      new Date().toISOString()\n  }\n};"
+        "jsCode": "const ollamaResponse = $json;\n\nconst source =\n  $(\"Hash Ollama Input Attempt 1\").item.json;\n\nconst {\n  ollama_request_body,\n  ...originalData\n} = source;\n\nconst validationErrors = [];\nlet parsedOutput = null;\n\nif (\n  source.llm_test_force_all_attempts_failure === true\n) {\n  validationErrors.push(\n    \"SYNTHETIC_FORCED_ALL_ATTEMPTS_FAILURE\"\n  );\n}\n\nif (\n  source.llm_test_force_first_attempt_failure === true &&\n  Number(source.llm_attempt ?? 1) === 1\n) {\n  validationErrors.push(\n    \"SYNTHETIC_FORCED_FIRST_ATTEMPT_FAILURE\"\n  );\n}\n\nif (ollamaResponse.done !== true) {\n  validationErrors.push(\"OLLAMA_NOT_COMPLETED\");\n}\n\nif (ollamaResponse.done_reason !== \"stop\") {\n  validationErrors.push(\n    `INVALID_STOP_REASON:${ollamaResponse.done_reason ?? \"MISSING\"}`\n  );\n}\n\nconst rawOutput =\n  ollamaResponse.message?.content ?? \"\";\n\ntry {\n  parsedOutput = JSON.parse(rawOutput);\n} catch (error) {\n  validationErrors.push(\"INVALID_JSON\");\n}\n\nif (parsedOutput) {\n  const expectedKeys = [\n    \"customer_explanation\",\n    \"exception_reason\",\n    \"internal_rationale\",\n    \"negotiation_options\"\n  ];\n\n  const actualKeys =\n    Object.keys(parsedOutput).sort();\n\n  if (\n    JSON.stringify(actualKeys) !==\n    JSON.stringify(expectedKeys)\n  ) {\n    validationErrors.push(\"INVALID_SCHEMA_KEYS\");\n  }\n\n  if (\n    typeof parsedOutput.customer_explanation !== \"string\" ||\n    typeof parsedOutput.internal_rationale !== \"string\"\n  ) {\n    validationErrors.push(\"INVALID_EXPLANATION_TYPES\");\n  }\n\n  if (\n    !Array.isArray(parsedOutput.negotiation_options) ||\n    parsedOutput.negotiation_options.length > 3\n  ) {\n    validationErrors.push(\"INVALID_NEGOTIATION_OPTIONS\");\n  }\n\n  if (parsedOutput.exception_reason !== null) {\n    validationErrors.push(\n      \"UNEXPECTED_EXCEPTION_REASON\"\n    );\n  }\n\n  const completeText = [\n    parsedOutput.customer_explanation ?? \"\",\n    parsedOutput.internal_rationale ?? \"\",\n    ...(Array.isArray(parsedOutput.negotiation_options)\n      ? parsedOutput.negotiation_options\n      : [])\n  ].join(\"\\n\");\n\n  const customerJapanese =\n    /[\\u3040-\\u30ff\\u3400-\\u9fff]/.test(\n      parsedOutput.customer_explanation ?? \"\"\n    );\n\n  const internalJapanese =\n    /[\\u3040-\\u30ff\\u3400-\\u9fff]/.test(\n      parsedOutput.internal_rationale ?? \"\"\n    );\n\n  if (!customerJapanese || !internalJapanese) {\n    validationErrors.push(\"JAPANESE_OUTPUT_REQUIRED\");\n  }\n\n  if (/[0-9０-９]/.test(completeText)) {\n    validationErrors.push(\n      \"NUMERIC_VALUE_FOUND_IN_AI_TEXT\"\n    );\n  }\n\n  const prohibitedPattern =\n    /承認します|承認しました|承認済み|却下します|価格を変更|価格変更|値引き|値上げ|adjust.+price|lower.+price|raise.+price|approved|rejected/i;\n\n  if (prohibitedPattern.test(completeText)) {\n    validationErrors.push(\n      \"PROHIBITED_POLICY_LANGUAGE\"\n    );\n  }\n}\n\nconst llmOutputValid =\n  validationErrors.length === 0;\n\nreturn {\n  json: {\n    ...originalData,\n\n    customer_explanation:\n      parsedOutput?.customer_explanation ?? null,\n\n    internal_rationale:\n      parsedOutput?.internal_rationale ?? null,\n\n    negotiation_options:\n      parsedOutput?.negotiation_options ?? [],\n\n    exception_reason:\n      parsedOutput?.exception_reason ?? null,\n\n    ai_status:\n      llmOutputValid\n        ? \"OLLAMA_GENERATED\"\n        : \"OLLAMA_VALIDATION_FAILED\",\n\n    prompt_version:\n      \"phase2-ollama-explanation-v1\",\n\n    llm_provider: \"ollama\",\n    llm_model: ollamaResponse.model ?? \"qwen3:8b\",\n\n    llm_output_valid: llmOutputValid,\n    llm_validation_errors: validationErrors,\n\n    loop_count: 1,\n\n    loop_stop_reason:\n      llmOutputValid\n        ? \"FIRST_ATTEMPT_PASS\"\n        : \"VALIDATION_FAILED\",\n\n    llm_prompt_tokens:\n      ollamaResponse.prompt_eval_count ?? null,\n\n    llm_output_tokens:\n      ollamaResponse.eval_count ?? null,\n\n    llm_latency_ms:\n      Math.round(\n        Number(ollamaResponse.total_duration ?? 0) /\n        1000000\n      ),\n\n    llm_cost_usd: 0,\n\n    llm_raw_output: rawOutput,\n\n    llm_completed_at:\n      new Date().toISOString()\n  }\n};"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1888,
-        208
+        2480,
+        224
       ],
       "id": "cd7f547d-b16e-4fc4-8a7f-999d6b035945",
       "name": "Validate Ollama Output"
@@ -776,7 +776,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2144,
+        2400,
         496
       ],
       "id": "f4370dd4-777c-498f-9d39-43a40e76b9d9",
@@ -799,7 +799,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1808,
+        2224,
         48
       ],
       "id": "0630fde0-81d5-4442-b75a-e205e10480d4",
@@ -833,7 +833,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2496,
+        2752,
         464
       ],
       "id": "eeed0baa-aa7b-45d3-b2c3-cfc8e93fd10c",
@@ -847,7 +847,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2736,
+        2992,
         464
       ],
       "id": "50ba1987-2540-4964-ab49-206a43fbb2bb",
@@ -876,7 +876,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        2976,
+        3392,
         448
       ],
       "id": "58a07d66-9538-4be7-ba82-7016901b6b91",
@@ -885,12 +885,12 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "const ollamaResponse = $json;\n\nconst source =\n  $(\"Prepare Ollama Retry\").item.json;\n\nconst {\n  ollama_request_body,\n  ...originalData\n} = source;\n\nconst attempt =\n  Number(source.llm_attempt ?? 2);\n\nconst maxAttempts =\n  Number(source.llm_max_attempts ?? 3);\n\nconst loopLimitMs =\n  Number(source.llm_loop_timeout_ms ?? 180000);\n\nconst loopStartedAt =\n  Date.parse(source.llm_started_at);\n\nconst loopElapsedMs =\n  Number.isFinite(loopStartedAt)\n    ? Date.now() - loopStartedAt\n    : 0;\n\nconst validationErrors = [];\nlet parsedOutput = null;\n\nif (\n  source.llm_test_force_all_attempts_failure === true\n) {\n  validationErrors.push(\n    \"SYNTHETIC_FORCED_ALL_ATTEMPTS_FAILURE\"\n  );\n}\n\nif (loopElapsedMs > loopLimitMs) {\n  validationErrors.push(\n    \"LOOP_TOTAL_TIMEOUT\"\n  );\n}\n\nif (ollamaResponse.done !== true) {\n  validationErrors.push(\n    \"OLLAMA_NOT_COMPLETED\"\n  );\n}\n\nif (ollamaResponse.done_reason !== \"stop\") {\n  validationErrors.push(\n    `INVALID_STOP_REASON:${ollamaResponse.done_reason ?? \"MISSING\"}`\n  );\n}\n\nconst rawOutput =\n  ollamaResponse.message?.content ?? \"\";\n\nif (\n  source.llm_previous_raw_output &&\n  rawOutput === source.llm_previous_raw_output\n) {\n  validationErrors.push(\n    \"NO_PROGRESS_SAME_OUTPUT\"\n  );\n}\n\ntry {\n  parsedOutput =\n    JSON.parse(rawOutput);\n} catch (error) {\n  validationErrors.push(\n    \"INVALID_JSON\"\n  );\n}\n\nif (parsedOutput) {\n  const expectedKeys = [\n    \"customer_explanation\",\n    \"exception_reason\",\n    \"internal_rationale\",\n    \"negotiation_options\"\n  ];\n\n  const actualKeys =\n    Object.keys(parsedOutput).sort();\n\n  if (\n    JSON.stringify(actualKeys) !==\n    JSON.stringify(expectedKeys)\n  ) {\n    validationErrors.push(\n      \"INVALID_SCHEMA_KEYS\"\n    );\n  }\n\n  if (\n    typeof parsedOutput.customer_explanation !== \"string\" ||\n    typeof parsedOutput.internal_rationale !== \"string\"\n  ) {\n    validationErrors.push(\n      \"INVALID_EXPLANATION_TYPES\"\n    );\n  }\n\n  if (\n    !Array.isArray(\n      parsedOutput.negotiation_options\n    ) ||\n    parsedOutput.negotiation_options.length > 3\n  ) {\n    validationErrors.push(\n      \"INVALID_NEGOTIATION_OPTIONS\"\n    );\n  }\n\n  if (\n    parsedOutput.exception_reason !== null\n  ) {\n    validationErrors.push(\n      \"UNEXPECTED_EXCEPTION_REASON\"\n    );\n  }\n\n  const completeText = [\n    parsedOutput.customer_explanation ?? \"\",\n    parsedOutput.internal_rationale ?? \"\",\n    ...(Array.isArray(\n      parsedOutput.negotiation_options\n    )\n      ? parsedOutput.negotiation_options\n      : [])\n  ].join(\"\\n\");\n\n  const customerJapanese =\n    /[\\u3040-\\u30ff\\u3400-\\u9fff]/.test(\n      parsedOutput.customer_explanation ?? \"\"\n    );\n\n  const internalJapanese =\n    /[\\u3040-\\u30ff\\u3400-\\u9fff]/.test(\n      parsedOutput.internal_rationale ?? \"\"\n    );\n\n  if (\n    !customerJapanese ||\n    !internalJapanese\n  ) {\n    validationErrors.push(\n      \"JAPANESE_OUTPUT_REQUIRED\"\n    );\n  }\n\n  if (\n    /[0-9０-９]/.test(completeText)\n  ) {\n    validationErrors.push(\n      \"NUMERIC_VALUE_FOUND_IN_AI_TEXT\"\n    );\n  }\n\n  const prohibitedPattern =\n    /承認します|承認しました|承認済み|却下します|価格を変更|価格変更|値引き|値上げ|adjust.+price|lower.+price|raise.+price|approved|rejected/i;\n\n  if (\n    prohibitedPattern.test(completeText)\n  ) {\n    validationErrors.push(\n      \"PROHIBITED_POLICY_LANGUAGE\"\n    );\n  }\n}\n\nconst llmOutputValid =\n  validationErrors.length === 0;\n\nlet loopStopReason;\n\nif (llmOutputValid) {\n  loopStopReason =\n    `PASS_ATTEMPT_${attempt}`;\n} else if (\n  validationErrors.includes(\n    \"NO_PROGRESS_SAME_OUTPUT\"\n  )\n) {\n  loopStopReason =\n    \"NO_PROGRESS\";\n} else if (\n  validationErrors.includes(\n    \"LOOP_TOTAL_TIMEOUT\"\n  )\n) {\n  loopStopReason =\n    \"TOTAL_TIMEOUT\";\n} else if (\n  attempt >= maxAttempts\n) {\n  loopStopReason =\n    \"MAX_ATTEMPTS_REACHED\";\n} else {\n  loopStopReason =\n    \"RETRY_REQUIRED\";\n}\n\nconst terminalFailure =\n  [\n    \"NO_PROGRESS\",\n    \"TOTAL_TIMEOUT\",\n    \"MAX_ATTEMPTS_REACHED\"\n  ].includes(loopStopReason);\n\nconst retryAllowed =\n  !llmOutputValid &&\n  !terminalFailure &&\n  attempt < maxAttempts;\n\nconst previousAudit =\n  Array.isArray(source.llm_attempt_audit)\n    ? [...source.llm_attempt_audit]\n    : [];\n\nif (\n  previousAudit.length === 0 &&\n  attempt > 1\n) {\n  previousAudit.push({\n    attempt: attempt - 1,\n    status: \"FAIL_VALIDATION\",\n    validation_errors:\n      source.llm_previous_validation_errors ??\n      [],\n    latency_ms:\n      source.llm_latency_ms ?? null,\n    prompt_tokens:\n      source.llm_prompt_tokens ?? null,\n    output_tokens:\n      source.llm_output_tokens ?? null,\n    cost_usd: 0\n  });\n}\n\npreviousAudit.push({\n  attempt,\n  status:\n    llmOutputValid\n      ? \"PASS\"\n      : \"FAIL_VALIDATION\",\n  validation_errors:\n    validationErrors,\n  latency_ms:\n    Math.round(\n      Number(\n        ollamaResponse.total_duration ?? 0\n      ) / 1000000\n    ),\n  prompt_tokens:\n    ollamaResponse.prompt_eval_count ?? null,\n  output_tokens:\n    ollamaResponse.eval_count ?? null,\n  cost_usd: 0\n});\n\nconst currentPromptTokens =\n  Number(\n    ollamaResponse.prompt_eval_count ?? 0\n  );\n\nconst currentOutputTokens =\n  Number(\n    ollamaResponse.eval_count ?? 0\n  );\n\nconst previousPromptTotal =\n  Number(\n    source.llm_prompt_tokens_total ??\n    source.llm_prompt_tokens ??\n    0\n  );\n\nconst previousOutputTotal =\n  Number(\n    source.llm_output_tokens_total ??\n    source.llm_output_tokens ??\n    0\n  );\n\nreturn {\n  json: {\n    ...originalData,\n\n    customer_explanation:\n      parsedOutput?.customer_explanation ??\n      null,\n\n    internal_rationale:\n      parsedOutput?.internal_rationale ??\n      null,\n\n    negotiation_options:\n      parsedOutput?.negotiation_options ??\n      [],\n\n    exception_reason:\n      parsedOutput?.exception_reason ??\n      null,\n\n    ai_status:\n      llmOutputValid\n        ? \"OLLAMA_GENERATED\"\n        : \"OLLAMA_VALIDATION_FAILED\",\n\n    prompt_version:\n      \"phase2-ollama-explanation-v1\",\n\n    llm_provider:\n      \"ollama\",\n\n    llm_model:\n      ollamaResponse.model ?? \"qwen3:8b\",\n\n    llm_attempt:\n      attempt,\n\n    llm_output_valid:\n      llmOutputValid,\n\n    llm_validation_errors:\n      validationErrors,\n\n    llm_retry_allowed:\n      retryAllowed,\n\n    loop_count:\n      attempt,\n\n    loop_stop_reason:\n      loopStopReason,\n\n    llm_attempt_audit:\n      previousAudit,\n\n    llm_prompt_tokens:\n      currentPromptTokens,\n\n    llm_output_tokens:\n      currentOutputTokens,\n\n    llm_prompt_tokens_total:\n      previousPromptTotal +\n      currentPromptTokens,\n\n    llm_output_tokens_total:\n      previousOutputTotal +\n      currentOutputTokens,\n\n    llm_latency_ms:\n      Math.round(\n        Number(\n          ollamaResponse.total_duration ?? 0\n        ) / 1000000\n      ),\n\n    llm_loop_elapsed_ms:\n      loopElapsedMs,\n\n    llm_cost_usd:\n      0,\n\n    llm_raw_output:\n      rawOutput,\n\n    llm_completed_at:\n      new Date().toISOString()\n  }\n};"
+        "jsCode": "const ollamaResponse = $json;\n\nconst source =\n  $(\"Hash Ollama Input Attempt 2\").item.json;\n\nconst {\n  ollama_request_body,\n  ...originalData\n} = source;\n\nconst attempt =\n  Number(source.llm_attempt ?? 2);\n\nconst maxAttempts =\n  Number(source.llm_max_attempts ?? 3);\n\nconst loopLimitMs =\n  Number(source.llm_loop_timeout_ms ?? 180000);\n\nconst loopStartedAt =\n  Date.parse(source.llm_started_at);\n\nconst loopElapsedMs =\n  Number.isFinite(loopStartedAt)\n    ? Date.now() - loopStartedAt\n    : 0;\n\nconst validationErrors = [];\nlet parsedOutput = null;\n\nif (\n  source.llm_test_force_all_attempts_failure === true\n) {\n  validationErrors.push(\n    \"SYNTHETIC_FORCED_ALL_ATTEMPTS_FAILURE\"\n  );\n}\n\nif (loopElapsedMs > loopLimitMs) {\n  validationErrors.push(\n    \"LOOP_TOTAL_TIMEOUT\"\n  );\n}\n\nif (ollamaResponse.done !== true) {\n  validationErrors.push(\n    \"OLLAMA_NOT_COMPLETED\"\n  );\n}\n\nif (ollamaResponse.done_reason !== \"stop\") {\n  validationErrors.push(\n    `INVALID_STOP_REASON:${ollamaResponse.done_reason ?? \"MISSING\"}`\n  );\n}\n\nconst rawOutput =\n  ollamaResponse.message?.content ?? \"\";\n\nif (\n  source.llm_previous_raw_output &&\n  rawOutput === source.llm_previous_raw_output\n) {\n  validationErrors.push(\n    \"NO_PROGRESS_SAME_OUTPUT\"\n  );\n}\n\ntry {\n  parsedOutput =\n    JSON.parse(rawOutput);\n} catch (error) {\n  validationErrors.push(\n    \"INVALID_JSON\"\n  );\n}\n\nif (parsedOutput) {\n  const expectedKeys = [\n    \"customer_explanation\",\n    \"exception_reason\",\n    \"internal_rationale\",\n    \"negotiation_options\"\n  ];\n\n  const actualKeys =\n    Object.keys(parsedOutput).sort();\n\n  if (\n    JSON.stringify(actualKeys) !==\n    JSON.stringify(expectedKeys)\n  ) {\n    validationErrors.push(\n      \"INVALID_SCHEMA_KEYS\"\n    );\n  }\n\n  if (\n    typeof parsedOutput.customer_explanation !== \"string\" ||\n    typeof parsedOutput.internal_rationale !== \"string\"\n  ) {\n    validationErrors.push(\n      \"INVALID_EXPLANATION_TYPES\"\n    );\n  }\n\n  if (\n    !Array.isArray(\n      parsedOutput.negotiation_options\n    ) ||\n    parsedOutput.negotiation_options.length > 3\n  ) {\n    validationErrors.push(\n      \"INVALID_NEGOTIATION_OPTIONS\"\n    );\n  }\n\n  if (\n    parsedOutput.exception_reason !== null\n  ) {\n    validationErrors.push(\n      \"UNEXPECTED_EXCEPTION_REASON\"\n    );\n  }\n\n  const completeText = [\n    parsedOutput.customer_explanation ?? \"\",\n    parsedOutput.internal_rationale ?? \"\",\n    ...(Array.isArray(\n      parsedOutput.negotiation_options\n    )\n      ? parsedOutput.negotiation_options\n      : [])\n  ].join(\"\\n\");\n\n  const customerJapanese =\n    /[\\u3040-\\u30ff\\u3400-\\u9fff]/.test(\n      parsedOutput.customer_explanation ?? \"\"\n    );\n\n  const internalJapanese =\n    /[\\u3040-\\u30ff\\u3400-\\u9fff]/.test(\n      parsedOutput.internal_rationale ?? \"\"\n    );\n\n  if (\n    !customerJapanese ||\n    !internalJapanese\n  ) {\n    validationErrors.push(\n      \"JAPANESE_OUTPUT_REQUIRED\"\n    );\n  }\n\n  if (\n    /[0-9０-９]/.test(completeText)\n  ) {\n    validationErrors.push(\n      \"NUMERIC_VALUE_FOUND_IN_AI_TEXT\"\n    );\n  }\n\n  const prohibitedPattern =\n    /承認します|承認しました|承認済み|却下します|価格を変更|価格変更|値引き|値上げ|adjust.+price|lower.+price|raise.+price|approved|rejected/i;\n\n  if (\n    prohibitedPattern.test(completeText)\n  ) {\n    validationErrors.push(\n      \"PROHIBITED_POLICY_LANGUAGE\"\n    );\n  }\n}\n\nconst llmOutputValid =\n  validationErrors.length === 0;\n\nlet loopStopReason;\n\nif (llmOutputValid) {\n  loopStopReason =\n    `PASS_ATTEMPT_${attempt}`;\n} else if (\n  validationErrors.includes(\n    \"NO_PROGRESS_SAME_OUTPUT\"\n  )\n) {\n  loopStopReason =\n    \"NO_PROGRESS\";\n} else if (\n  validationErrors.includes(\n    \"LOOP_TOTAL_TIMEOUT\"\n  )\n) {\n  loopStopReason =\n    \"TOTAL_TIMEOUT\";\n} else if (\n  attempt >= maxAttempts\n) {\n  loopStopReason =\n    \"MAX_ATTEMPTS_REACHED\";\n} else {\n  loopStopReason =\n    \"RETRY_REQUIRED\";\n}\n\nconst terminalFailure =\n  [\n    \"NO_PROGRESS\",\n    \"TOTAL_TIMEOUT\",\n    \"MAX_ATTEMPTS_REACHED\"\n  ].includes(loopStopReason);\n\nconst retryAllowed =\n  !llmOutputValid &&\n  !terminalFailure &&\n  attempt < maxAttempts;\n\nconst previousAudit =\n  Array.isArray(source.llm_attempt_audit)\n    ? [...source.llm_attempt_audit]\n    : [];\n\nif (\n  previousAudit.length === 0 &&\n  attempt > 1\n) {\n  previousAudit.push({\n    attempt: attempt - 1,\n    status: \"FAIL_VALIDATION\",\n    validation_errors:\n      source.llm_previous_validation_errors ??\n      [],\n    latency_ms:\n      source.llm_latency_ms ?? null,\n    prompt_tokens:\n      source.llm_prompt_tokens ?? null,\n    output_tokens:\n      source.llm_output_tokens ?? null,\n    cost_usd: 0\n  });\n}\n\npreviousAudit.push({\n  attempt,\n  status:\n    llmOutputValid\n      ? \"PASS\"\n      : \"FAIL_VALIDATION\",\n  validation_errors:\n    validationErrors,\n  latency_ms:\n    Math.round(\n      Number(\n        ollamaResponse.total_duration ?? 0\n      ) / 1000000\n    ),\n  prompt_tokens:\n    ollamaResponse.prompt_eval_count ?? null,\n  output_tokens:\n    ollamaResponse.eval_count ?? null,\n  cost_usd: 0\n});\n\nconst currentPromptTokens =\n  Number(\n    ollamaResponse.prompt_eval_count ?? 0\n  );\n\nconst currentOutputTokens =\n  Number(\n    ollamaResponse.eval_count ?? 0\n  );\n\nconst previousPromptTotal =\n  Number(\n    source.llm_prompt_tokens_total ??\n    source.llm_prompt_tokens ??\n    0\n  );\n\nconst previousOutputTotal =\n  Number(\n    source.llm_output_tokens_total ??\n    source.llm_output_tokens ??\n    0\n  );\n\nreturn {\n  json: {\n    ...originalData,\n\n    customer_explanation:\n      parsedOutput?.customer_explanation ??\n      null,\n\n    internal_rationale:\n      parsedOutput?.internal_rationale ??\n      null,\n\n    negotiation_options:\n      parsedOutput?.negotiation_options ??\n      [],\n\n    exception_reason:\n      parsedOutput?.exception_reason ??\n      null,\n\n    ai_status:\n      llmOutputValid\n        ? \"OLLAMA_GENERATED\"\n        : \"OLLAMA_VALIDATION_FAILED\",\n\n    prompt_version:\n      \"phase2-ollama-explanation-v1\",\n\n    llm_provider:\n      \"ollama\",\n\n    llm_model:\n      ollamaResponse.model ?? \"qwen3:8b\",\n\n    llm_attempt:\n      attempt,\n\n    llm_output_valid:\n      llmOutputValid,\n\n    llm_validation_errors:\n      validationErrors,\n\n    llm_retry_allowed:\n      retryAllowed,\n\n    loop_count:\n      attempt,\n\n    loop_stop_reason:\n      loopStopReason,\n\n    llm_attempt_audit:\n      previousAudit,\n\n    llm_prompt_tokens:\n      currentPromptTokens,\n\n    llm_output_tokens:\n      currentOutputTokens,\n\n    llm_prompt_tokens_total:\n      previousPromptTotal +\n      currentPromptTokens,\n\n    llm_output_tokens_total:\n      previousOutputTotal +\n      currentOutputTokens,\n\n    llm_latency_ms:\n      Math.round(\n        Number(\n          ollamaResponse.total_duration ?? 0\n        ) / 1000000\n      ),\n\n    llm_loop_elapsed_ms:\n      loopElapsedMs,\n\n    llm_cost_usd:\n      0,\n\n    llm_raw_output:\n      rawOutput,\n\n    llm_completed_at:\n      new Date().toISOString()\n  }\n};"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3200,
+        3616,
         448
       ],
       "id": "a667bd86-bb67-4803-9afd-4f055c7a8bb5",
@@ -924,7 +924,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        3408,
+        3824,
         448
       ],
       "id": "ed13dd01-ccaa-424c-9e3f-ab1c678af83b",
@@ -958,7 +958,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        3648,
+        4064,
         464
       ],
       "id": "1b423446-591f-4250-89bd-e50f1d6831ad",
@@ -972,7 +972,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3888,
+        4304,
         464
       ],
       "id": "ba688b89-7b9b-4c16-92cf-4821704cb4ad",
@@ -1001,8 +1001,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        4128,
-        448
+        4704,
+        464
       ],
       "id": "e0d98d4c-fe02-42dd-b7d3-10b5a556140a",
       "name": "Ollama Attempt 3"
@@ -1010,13 +1010,13 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "const ollamaResponse = $json;\n\nconst source =\n  $(\"Prepare Ollama Attempt 3\").item.json;\n\nconst {\n  ollama_request_body,\n  ...originalData\n} = source;\n\nconst attempt =\n  Number(source.llm_attempt ?? 2);\n\nconst maxAttempts =\n  Number(source.llm_max_attempts ?? 3);\n\nconst loopLimitMs =\n  Number(source.llm_loop_timeout_ms ?? 180000);\n\nconst loopStartedAt =\n  Date.parse(source.llm_started_at);\n\nconst loopElapsedMs =\n  Number.isFinite(loopStartedAt)\n    ? Date.now() - loopStartedAt\n    : 0;\n\nconst validationErrors = [];\nlet parsedOutput = null;\n\nif (\n  source.llm_test_force_all_attempts_failure === true\n) {\n  validationErrors.push(\n    \"SYNTHETIC_FORCED_ALL_ATTEMPTS_FAILURE\"\n  );\n}\n\nif (loopElapsedMs > loopLimitMs) {\n  validationErrors.push(\n    \"LOOP_TOTAL_TIMEOUT\"\n  );\n}\n\nif (ollamaResponse.done !== true) {\n  validationErrors.push(\n    \"OLLAMA_NOT_COMPLETED\"\n  );\n}\n\nif (ollamaResponse.done_reason !== \"stop\") {\n  validationErrors.push(\n    `INVALID_STOP_REASON:${ollamaResponse.done_reason ?? \"MISSING\"}`\n  );\n}\n\nconst rawOutput =\n  ollamaResponse.message?.content ?? \"\";\n\nif (\n  source.llm_previous_raw_output &&\n  rawOutput === source.llm_previous_raw_output\n) {\n  validationErrors.push(\n    \"NO_PROGRESS_SAME_OUTPUT\"\n  );\n}\n\ntry {\n  parsedOutput =\n    JSON.parse(rawOutput);\n} catch (error) {\n  validationErrors.push(\n    \"INVALID_JSON\"\n  );\n}\n\nif (parsedOutput) {\n  const expectedKeys = [\n    \"customer_explanation\",\n    \"exception_reason\",\n    \"internal_rationale\",\n    \"negotiation_options\"\n  ];\n\n  const actualKeys =\n    Object.keys(parsedOutput).sort();\n\n  if (\n    JSON.stringify(actualKeys) !==\n    JSON.stringify(expectedKeys)\n  ) {\n    validationErrors.push(\n      \"INVALID_SCHEMA_KEYS\"\n    );\n  }\n\n  if (\n    typeof parsedOutput.customer_explanation !== \"string\" ||\n    typeof parsedOutput.internal_rationale !== \"string\"\n  ) {\n    validationErrors.push(\n      \"INVALID_EXPLANATION_TYPES\"\n    );\n  }\n\n  if (\n    !Array.isArray(\n      parsedOutput.negotiation_options\n    ) ||\n    parsedOutput.negotiation_options.length > 3\n  ) {\n    validationErrors.push(\n      \"INVALID_NEGOTIATION_OPTIONS\"\n    );\n  }\n\n  if (\n    parsedOutput.exception_reason !== null\n  ) {\n    validationErrors.push(\n      \"UNEXPECTED_EXCEPTION_REASON\"\n    );\n  }\n\n  const completeText = [\n    parsedOutput.customer_explanation ?? \"\",\n    parsedOutput.internal_rationale ?? \"\",\n    ...(Array.isArray(\n      parsedOutput.negotiation_options\n    )\n      ? parsedOutput.negotiation_options\n      : [])\n  ].join(\"\\n\");\n\n  const customerJapanese =\n    /[\\u3040-\\u30ff\\u3400-\\u9fff]/.test(\n      parsedOutput.customer_explanation ?? \"\"\n    );\n\n  const internalJapanese =\n    /[\\u3040-\\u30ff\\u3400-\\u9fff]/.test(\n      parsedOutput.internal_rationale ?? \"\"\n    );\n\n  if (\n    !customerJapanese ||\n    !internalJapanese\n  ) {\n    validationErrors.push(\n      \"JAPANESE_OUTPUT_REQUIRED\"\n    );\n  }\n\n  if (\n    /[0-9０-９]/.test(completeText)\n  ) {\n    validationErrors.push(\n      \"NUMERIC_VALUE_FOUND_IN_AI_TEXT\"\n    );\n  }\n\n  const prohibitedPattern =\n    /承認します|承認しました|承認済み|却下します|価格を変更|価格変更|値引き|値上げ|adjust.+price|lower.+price|raise.+price|approved|rejected/i;\n\n  if (\n    prohibitedPattern.test(completeText)\n  ) {\n    validationErrors.push(\n      \"PROHIBITED_POLICY_LANGUAGE\"\n    );\n  }\n}\n\nconst llmOutputValid =\n  validationErrors.length === 0;\n\nlet loopStopReason;\n\nif (llmOutputValid) {\n  loopStopReason =\n    `PASS_ATTEMPT_${attempt}`;\n} else if (\n  validationErrors.includes(\n    \"NO_PROGRESS_SAME_OUTPUT\"\n  )\n) {\n  loopStopReason =\n    \"NO_PROGRESS\";\n} else if (\n  validationErrors.includes(\n    \"LOOP_TOTAL_TIMEOUT\"\n  )\n) {\n  loopStopReason =\n    \"TOTAL_TIMEOUT\";\n} else if (\n  attempt >= maxAttempts\n) {\n  loopStopReason =\n    \"MAX_ATTEMPTS_REACHED\";\n} else {\n  loopStopReason =\n    \"RETRY_REQUIRED\";\n}\n\nconst terminalFailure =\n  [\n    \"NO_PROGRESS\",\n    \"TOTAL_TIMEOUT\",\n    \"MAX_ATTEMPTS_REACHED\"\n  ].includes(loopStopReason);\n\nconst retryAllowed =\n  !llmOutputValid &&\n  !terminalFailure &&\n  attempt < maxAttempts;\n\nconst previousAudit =\n  Array.isArray(source.llm_attempt_audit)\n    ? [...source.llm_attempt_audit]\n    : [];\n\nif (\n  previousAudit.length === 0 &&\n  attempt > 1\n) {\n  previousAudit.push({\n    attempt: attempt - 1,\n    status: \"FAIL_VALIDATION\",\n    validation_errors:\n      source.llm_previous_validation_errors ??\n      [],\n    latency_ms:\n      source.llm_latency_ms ?? null,\n    prompt_tokens:\n      source.llm_prompt_tokens ?? null,\n    output_tokens:\n      source.llm_output_tokens ?? null,\n    cost_usd: 0\n  });\n}\n\npreviousAudit.push({\n  attempt,\n  status:\n    llmOutputValid\n      ? \"PASS\"\n      : \"FAIL_VALIDATION\",\n  validation_errors:\n    validationErrors,\n  latency_ms:\n    Math.round(\n      Number(\n        ollamaResponse.total_duration ?? 0\n      ) / 1000000\n    ),\n  prompt_tokens:\n    ollamaResponse.prompt_eval_count ?? null,\n  output_tokens:\n    ollamaResponse.eval_count ?? null,\n  cost_usd: 0\n});\n\nconst currentPromptTokens =\n  Number(\n    ollamaResponse.prompt_eval_count ?? 0\n  );\n\nconst currentOutputTokens =\n  Number(\n    ollamaResponse.eval_count ?? 0\n  );\n\nconst previousPromptTotal =\n  Number(\n    source.llm_prompt_tokens_total ??\n    source.llm_prompt_tokens ??\n    0\n  );\n\nconst previousOutputTotal =\n  Number(\n    source.llm_output_tokens_total ??\n    source.llm_output_tokens ??\n    0\n  );\n\nreturn {\n  json: {\n    ...originalData,\n\n    customer_explanation:\n      parsedOutput?.customer_explanation ??\n      null,\n\n    internal_rationale:\n      parsedOutput?.internal_rationale ??\n      null,\n\n    negotiation_options:\n      parsedOutput?.negotiation_options ??\n      [],\n\n    exception_reason:\n      parsedOutput?.exception_reason ??\n      null,\n\n    ai_status:\n      llmOutputValid\n        ? \"OLLAMA_GENERATED\"\n        : \"OLLAMA_VALIDATION_FAILED\",\n\n    prompt_version:\n      \"phase2-ollama-explanation-v1\",\n\n    llm_provider:\n      \"ollama\",\n\n    llm_model:\n      ollamaResponse.model ?? \"qwen3:8b\",\n\n    llm_attempt:\n      attempt,\n\n    llm_output_valid:\n      llmOutputValid,\n\n    llm_validation_errors:\n      validationErrors,\n\n    llm_retry_allowed:\n      retryAllowed,\n\n    loop_count:\n      attempt,\n\n    loop_stop_reason:\n      loopStopReason,\n\n    llm_attempt_audit:\n      previousAudit,\n\n    llm_prompt_tokens:\n      currentPromptTokens,\n\n    llm_output_tokens:\n      currentOutputTokens,\n\n    llm_prompt_tokens_total:\n      previousPromptTotal +\n      currentPromptTokens,\n\n    llm_output_tokens_total:\n      previousOutputTotal +\n      currentOutputTokens,\n\n    llm_latency_ms:\n      Math.round(\n        Number(\n          ollamaResponse.total_duration ?? 0\n        ) / 1000000\n      ),\n\n    llm_loop_elapsed_ms:\n      loopElapsedMs,\n\n    llm_cost_usd:\n      0,\n\n    llm_raw_output:\n      rawOutput,\n\n    llm_completed_at:\n      new Date().toISOString()\n  }\n};"
+        "jsCode": "const ollamaResponse = $json;\n\nconst source =\n  $(\"Hash Ollama Input Attempt 3\").item.json;\n\nconst {\n  ollama_request_body,\n  ...originalData\n} = source;\n\nconst attempt =\n  Number(source.llm_attempt ?? 2);\n\nconst maxAttempts =\n  Number(source.llm_max_attempts ?? 3);\n\nconst loopLimitMs =\n  Number(source.llm_loop_timeout_ms ?? 180000);\n\nconst loopStartedAt =\n  Date.parse(source.llm_started_at);\n\nconst loopElapsedMs =\n  Number.isFinite(loopStartedAt)\n    ? Date.now() - loopStartedAt\n    : 0;\n\nconst validationErrors = [];\nlet parsedOutput = null;\n\nif (\n  source.llm_test_force_all_attempts_failure === true\n) {\n  validationErrors.push(\n    \"SYNTHETIC_FORCED_ALL_ATTEMPTS_FAILURE\"\n  );\n}\n\nif (loopElapsedMs > loopLimitMs) {\n  validationErrors.push(\n    \"LOOP_TOTAL_TIMEOUT\"\n  );\n}\n\nif (ollamaResponse.done !== true) {\n  validationErrors.push(\n    \"OLLAMA_NOT_COMPLETED\"\n  );\n}\n\nif (ollamaResponse.done_reason !== \"stop\") {\n  validationErrors.push(\n    `INVALID_STOP_REASON:${ollamaResponse.done_reason ?? \"MISSING\"}`\n  );\n}\n\nconst rawOutput =\n  ollamaResponse.message?.content ?? \"\";\n\nif (\n  source.llm_previous_raw_output &&\n  rawOutput === source.llm_previous_raw_output\n) {\n  validationErrors.push(\n    \"NO_PROGRESS_SAME_OUTPUT\"\n  );\n}\n\ntry {\n  parsedOutput =\n    JSON.parse(rawOutput);\n} catch (error) {\n  validationErrors.push(\n    \"INVALID_JSON\"\n  );\n}\n\nif (parsedOutput) {\n  const expectedKeys = [\n    \"customer_explanation\",\n    \"exception_reason\",\n    \"internal_rationale\",\n    \"negotiation_options\"\n  ];\n\n  const actualKeys =\n    Object.keys(parsedOutput).sort();\n\n  if (\n    JSON.stringify(actualKeys) !==\n    JSON.stringify(expectedKeys)\n  ) {\n    validationErrors.push(\n      \"INVALID_SCHEMA_KEYS\"\n    );\n  }\n\n  if (\n    typeof parsedOutput.customer_explanation !== \"string\" ||\n    typeof parsedOutput.internal_rationale !== \"string\"\n  ) {\n    validationErrors.push(\n      \"INVALID_EXPLANATION_TYPES\"\n    );\n  }\n\n  if (\n    !Array.isArray(\n      parsedOutput.negotiation_options\n    ) ||\n    parsedOutput.negotiation_options.length > 3\n  ) {\n    validationErrors.push(\n      \"INVALID_NEGOTIATION_OPTIONS\"\n    );\n  }\n\n  if (\n    parsedOutput.exception_reason !== null\n  ) {\n    validationErrors.push(\n      \"UNEXPECTED_EXCEPTION_REASON\"\n    );\n  }\n\n  const completeText = [\n    parsedOutput.customer_explanation ?? \"\",\n    parsedOutput.internal_rationale ?? \"\",\n    ...(Array.isArray(\n      parsedOutput.negotiation_options\n    )\n      ? parsedOutput.negotiation_options\n      : [])\n  ].join(\"\\n\");\n\n  const customerJapanese =\n    /[\\u3040-\\u30ff\\u3400-\\u9fff]/.test(\n      parsedOutput.customer_explanation ?? \"\"\n    );\n\n  const internalJapanese =\n    /[\\u3040-\\u30ff\\u3400-\\u9fff]/.test(\n      parsedOutput.internal_rationale ?? \"\"\n    );\n\n  if (\n    !customerJapanese ||\n    !internalJapanese\n  ) {\n    validationErrors.push(\n      \"JAPANESE_OUTPUT_REQUIRED\"\n    );\n  }\n\n  if (\n    /[0-9０-９]/.test(completeText)\n  ) {\n    validationErrors.push(\n      \"NUMERIC_VALUE_FOUND_IN_AI_TEXT\"\n    );\n  }\n\n  const prohibitedPattern =\n    /承認します|承認しました|承認済み|却下します|価格を変更|価格変更|値引き|値上げ|adjust.+price|lower.+price|raise.+price|approved|rejected/i;\n\n  if (\n    prohibitedPattern.test(completeText)\n  ) {\n    validationErrors.push(\n      \"PROHIBITED_POLICY_LANGUAGE\"\n    );\n  }\n}\n\nconst llmOutputValid =\n  validationErrors.length === 0;\n\nlet loopStopReason;\n\nif (llmOutputValid) {\n  loopStopReason =\n    `PASS_ATTEMPT_${attempt}`;\n} else if (\n  validationErrors.includes(\n    \"NO_PROGRESS_SAME_OUTPUT\"\n  )\n) {\n  loopStopReason =\n    \"NO_PROGRESS\";\n} else if (\n  validationErrors.includes(\n    \"LOOP_TOTAL_TIMEOUT\"\n  )\n) {\n  loopStopReason =\n    \"TOTAL_TIMEOUT\";\n} else if (\n  attempt >= maxAttempts\n) {\n  loopStopReason =\n    \"MAX_ATTEMPTS_REACHED\";\n} else {\n  loopStopReason =\n    \"RETRY_REQUIRED\";\n}\n\nconst terminalFailure =\n  [\n    \"NO_PROGRESS\",\n    \"TOTAL_TIMEOUT\",\n    \"MAX_ATTEMPTS_REACHED\"\n  ].includes(loopStopReason);\n\nconst retryAllowed =\n  !llmOutputValid &&\n  !terminalFailure &&\n  attempt < maxAttempts;\n\nconst previousAudit =\n  Array.isArray(source.llm_attempt_audit)\n    ? [...source.llm_attempt_audit]\n    : [];\n\nif (\n  previousAudit.length === 0 &&\n  attempt > 1\n) {\n  previousAudit.push({\n    attempt: attempt - 1,\n    status: \"FAIL_VALIDATION\",\n    validation_errors:\n      source.llm_previous_validation_errors ??\n      [],\n    latency_ms:\n      source.llm_latency_ms ?? null,\n    prompt_tokens:\n      source.llm_prompt_tokens ?? null,\n    output_tokens:\n      source.llm_output_tokens ?? null,\n    cost_usd: 0\n  });\n}\n\npreviousAudit.push({\n  attempt,\n  status:\n    llmOutputValid\n      ? \"PASS\"\n      : \"FAIL_VALIDATION\",\n  validation_errors:\n    validationErrors,\n  latency_ms:\n    Math.round(\n      Number(\n        ollamaResponse.total_duration ?? 0\n      ) / 1000000\n    ),\n  prompt_tokens:\n    ollamaResponse.prompt_eval_count ?? null,\n  output_tokens:\n    ollamaResponse.eval_count ?? null,\n  cost_usd: 0\n});\n\nconst currentPromptTokens =\n  Number(\n    ollamaResponse.prompt_eval_count ?? 0\n  );\n\nconst currentOutputTokens =\n  Number(\n    ollamaResponse.eval_count ?? 0\n  );\n\nconst previousPromptTotal =\n  Number(\n    source.llm_prompt_tokens_total ??\n    source.llm_prompt_tokens ??\n    0\n  );\n\nconst previousOutputTotal =\n  Number(\n    source.llm_output_tokens_total ??\n    source.llm_output_tokens ??\n    0\n  );\n\nreturn {\n  json: {\n    ...originalData,\n\n    customer_explanation:\n      parsedOutput?.customer_explanation ??\n      null,\n\n    internal_rationale:\n      parsedOutput?.internal_rationale ??\n      null,\n\n    negotiation_options:\n      parsedOutput?.negotiation_options ??\n      [],\n\n    exception_reason:\n      parsedOutput?.exception_reason ??\n      null,\n\n    ai_status:\n      llmOutputValid\n        ? \"OLLAMA_GENERATED\"\n        : \"OLLAMA_VALIDATION_FAILED\",\n\n    prompt_version:\n      \"phase2-ollama-explanation-v1\",\n\n    llm_provider:\n      \"ollama\",\n\n    llm_model:\n      ollamaResponse.model ?? \"qwen3:8b\",\n\n    llm_attempt:\n      attempt,\n\n    llm_output_valid:\n      llmOutputValid,\n\n    llm_validation_errors:\n      validationErrors,\n\n    llm_retry_allowed:\n      retryAllowed,\n\n    loop_count:\n      attempt,\n\n    loop_stop_reason:\n      loopStopReason,\n\n    llm_attempt_audit:\n      previousAudit,\n\n    llm_prompt_tokens:\n      currentPromptTokens,\n\n    llm_output_tokens:\n      currentOutputTokens,\n\n    llm_prompt_tokens_total:\n      previousPromptTotal +\n      currentPromptTokens,\n\n    llm_output_tokens_total:\n      previousOutputTotal +\n      currentOutputTokens,\n\n    llm_latency_ms:\n      Math.round(\n        Number(\n          ollamaResponse.total_duration ?? 0\n        ) / 1000000\n      ),\n\n    llm_loop_elapsed_ms:\n      loopElapsedMs,\n\n    llm_cost_usd:\n      0,\n\n    llm_raw_output:\n      rawOutput,\n\n    llm_completed_at:\n      new Date().toISOString()\n  }\n};"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        4352,
-        448
+        4896,
+        464
       ],
       "id": "b563c9fd-0f6b-4b44-bc43-51c71ba50d6f",
       "name": "Validate Ollama Attempt 3"
@@ -1049,8 +1049,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        4560,
-        448
+        5104,
+        464
       ],
       "id": "a24f24ea-d61a-494e-a1b6-8f498624a483",
       "name": "Final Ollama Output Gate"
@@ -1064,7 +1064,7 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        48,
+        -592,
         224
       ],
       "id": "2ca18023-0d2a-40ec-be1d-604ad4b44328",
@@ -1079,7 +1079,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        256,
+        -384,
         224
       ],
       "id": "0049d10b-3382-4f8e-9fe4-6df29a3c5769",
@@ -1093,11 +1093,216 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        624,
+        352,
         0
       ],
       "id": "a22b1882-209b-4bf3-8286-1127d8122fa1",
       "name": "Set Local Test Quote Candidate"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const dataClassification =\n  $json.input_data_classification ?? \"L1\";\n\nif (![\"L0\", \"L1\"].includes(dataClassification)) {\n  throw new Error(\n    `LANGFUSE_DATA_CLASSIFICATION_BLOCKED:${dataClassification}`\n  );\n}\n\nconst businessTraceId =\n  `${$json.rfq_id}:${$json.calculation_version}`;\n\nreturn {\n  json: {\n    ...$json,\n    trace_id: businessTraceId,\n    workflow_execution_id: $execution.id,\n    observability_data_classification:\n      dataClassification,\n    observability_started_at:\n      new Date().toISOString()\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1184,
+        0
+      ],
+      "id": "5a9c1fc3-436c-47bc-a826-f84248801075",
+      "name": "Initialize Langfuse Trace Context"
+    },
+    {
+      "parameters": {
+        "value": "=={{ $json.trace_id }}",
+        "dataPropertyName": "observability_trace_seed_hash"
+      },
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 2,
+      "position": [
+        1456,
+        0
+      ],
+      "id": "75d666a4-7f30-4349-b86c-8b9f2e6a9515",
+      "name": "Hash Langfuse Trace Context"
+    },
+    {
+      "parameters": {
+        "value": "=={{ JSON.stringify($json.ollama_request_body) }}",
+        "dataPropertyName": "llm_input_hash"
+      },
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 2,
+      "position": [
+        2096,
+        224
+      ],
+      "id": "c67c61ac-3556-4971-9016-1a6c60e598e7",
+      "name": "Hash Ollama Input Attempt 1"
+    },
+    {
+      "parameters": {
+        "value": "=={{ JSON.stringify($json.ollama_request_body) }}",
+        "dataPropertyName": "llm_input_hash"
+      },
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 2,
+      "position": [
+        3200,
+        448
+      ],
+      "id": "880f1ce5-f582-40d1-9fdb-24aee4af4cb9",
+      "name": "Hash Ollama Input Attempt 2"
+    },
+    {
+      "parameters": {
+        "value": "=={{ JSON.stringify($json.ollama_request_body) }}",
+        "dataPropertyName": "llm_input_hash"
+      },
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 2,
+      "position": [
+        4496,
+        464
+      ],
+      "id": "abde6e85-fa2e-4c65-b49e-55947d25ede1",
+      "name": "Hash Ollama Input Attempt 3"
+    },
+    {
+      "parameters": {
+        "value": "=={{ $json.llm_raw_output }}",
+        "dataPropertyName": "llm_output_hash"
+      },
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 2,
+      "position": [
+        2720,
+        224
+      ],
+      "id": "957eed93-ee50-4dc1-8fd3-ea4c68b995d1",
+      "name": "Hash Ollama Output"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const current = $json;\n\nconst context =\n  $(\"Hash Langfuse Trace Context\").first().json;\n\nconst attempt =\n  Number(current.llm_attempt ?? current.loop_count ?? 1);\n\nconst maxAttempts =\n  Number(current.llm_max_attempts ?? 3);\n\nlet inputSource;\n\nif (attempt === 1) {\n  inputSource =\n    $(\"Hash Ollama Input Attempt 1\").item.json;\n} else if (attempt === 2) {\n  inputSource =\n    $(\"Hash Ollama Input Attempt 2\").item.json;\n} else if (attempt === 3) {\n  inputSource =\n    $(\"Hash Ollama Input Attempt 3\").item.json;\n} else {\n  throw new Error(\n    `LANGFUSE_INVALID_ATTEMPT:${attempt}`\n  );\n}\n\nconst dataClassification =\n  current.llm_data_classification ??\n  context.observability_data_classification ??\n  \"L1\";\n\nif (![\"L0\", \"L1\"].includes(dataClassification)) {\n  throw new Error(\n    `LANGFUSE_DATA_CLASSIFICATION_BLOCKED:${dataClassification}`\n  );\n}\n\nconst traceSeed =\n  String(\n    context.observability_trace_seed_hash ?? \"\"\n  ).toLowerCase();\n\nconst inputHash =\n  String(\n    current.llm_input_hash ??\n    inputSource.llm_input_hash ??\n    \"\"\n  ).toLowerCase();\n\nconst outputHash =\n  String(\n    current.llm_output_hash ?? \"\"\n  ).toLowerCase();\n\nconst sha256Pattern = /^[a-f0-9]{64}$/;\n\nif (!sha256Pattern.test(traceSeed)) {\n  throw new Error(\n    \"LANGFUSE_INVALID_TRACE_SEED_HASH\"\n  );\n}\n\nif (!sha256Pattern.test(inputHash)) {\n  throw new Error(\n    \"LANGFUSE_INVALID_INPUT_HASH\"\n  );\n}\n\nif (!sha256Pattern.test(outputHash)) {\n  throw new Error(\n    \"LANGFUSE_INVALID_OUTPUT_HASH\"\n  );\n}\n\nconst traceId =\n  traceSeed.slice(0, 32);\n\nconst rootSpanId =\n  traceSeed.slice(32, 48);\n\nconst attemptHex =\n  attempt.toString(16).padStart(2, \"0\");\n\nconst generationSpanId =\n  inputHash.slice(0, 14) + attemptHex;\n\nif (\n  traceId === \"0\".repeat(32) ||\n  rootSpanId === \"0\".repeat(16) ||\n  generationSpanId === \"0\".repeat(16)\n) {\n  throw new Error(\n    \"LANGFUSE_INVALID_ZERO_OTEL_ID\"\n  );\n}\n\nconst endMsCandidate =\n  Date.parse(current.llm_completed_at ?? \"\");\n\nconst endMs =\n  Number.isFinite(endMsCandidate)\n    ? endMsCandidate\n    : Date.now();\n\nconst startIso =\n  attempt === 1\n    ? inputSource.llm_started_at\n    : inputSource.llm_retry_started_at;\n\nconst startMsCandidate =\n  Date.parse(startIso ?? \"\");\n\nconst latencyMs =\n  Math.max(\n    0,\n    Number(current.llm_latency_ms ?? 0)\n  );\n\nconst startMs =\n  Number.isFinite(startMsCandidate)\n    ? Math.min(startMsCandidate, endMs)\n    : Math.max(0, endMs - latencyMs);\n\nconst toUnixNano = (milliseconds) =>\n  (\n    BigInt(Math.trunc(milliseconds)) *\n    1000000n\n  ).toString();\n\nconst attribute = (key, value) => {\n  if (typeof value === \"boolean\") {\n    return {\n      key,\n      value: {\n        boolValue: value\n      }\n    };\n  }\n\n  if (\n    typeof value === \"number\" &&\n    Number.isInteger(value)\n  ) {\n    return {\n      key,\n      value: {\n        intValue: String(value)\n      }\n    };\n  }\n\n  if (typeof value === \"number\") {\n    return {\n      key,\n      value: {\n        doubleValue: value\n      }\n    };\n  }\n\n  if (Array.isArray(value)) {\n    return {\n      key,\n      value: {\n        arrayValue: {\n          values: value.map((item) => ({\n            stringValue: String(item)\n          }))\n        }\n      }\n    };\n  }\n\n  return {\n    key,\n    value: {\n      stringValue: String(value)\n    }\n  };\n};\n\nconst validationErrors =\n  Array.isArray(current.llm_validation_errors)\n    ? current.llm_validation_errors\n    : [];\n\nconst validationPassed =\n  current.llm_output_valid === true;\n\nconst retryAllowed =\n  typeof current.llm_retry_allowed === \"boolean\"\n    ? current.llm_retry_allowed\n    : !validationPassed && attempt < maxAttempts;\n\nconst retryDecision =\n  validationPassed\n    ? \"STOP_SUCCESS\"\n    : retryAllowed\n      ? \"RETRY\"\n      : \"STOP_FAIL_CLOSED\";\n\nconst inputLength =\n  JSON.stringify(\n    inputSource.ollama_request_body ?? {}\n  ).length;\n\nconst outputLength =\n  String(current.llm_raw_output ?? \"\").length;\n\nconst traceMetadata = {\n  business_trace_id:\n    context.trace_id,\n  rfq_id:\n    context.rfq_id,\n  workflow_execution_id:\n    context.workflow_execution_id,\n  calculation_version:\n    context.calculation_version,\n  prompt_version:\n    current.prompt_version ??\n    \"phase2-ollama-explanation-v1\",\n  data_classification:\n    dataClassification,\n  request_channel:\n    context.request_channel ?? \"local\"\n};\n\nconst observationMetadata = {\n  workflow_execution_id:\n    context.workflow_execution_id,\n  calculation_version:\n    context.calculation_version,\n  prompt_version:\n    current.prompt_version ??\n    \"phase2-ollama-explanation-v1\",\n  provider:\n    current.llm_provider ?? \"ollama\",\n  model:\n    current.llm_model ?? \"qwen3:8b\",\n  attempt,\n  max_attempts:\n    maxAttempts,\n  input_hash:\n    inputHash,\n  output_hash:\n    outputHash,\n  input_length:\n    inputLength,\n  output_length:\n    outputLength,\n  latency_ms:\n    latencyMs,\n  prompt_tokens:\n    current.llm_prompt_tokens ?? null,\n  output_tokens:\n    current.llm_output_tokens ?? null,\n  cost_usd:\n    Number(current.llm_cost_usd ?? 0),\n  validation_status:\n    validationPassed ? \"PASS\" : \"FAIL\",\n  validation_errors:\n    validationErrors,\n  retry_decision:\n    retryDecision,\n  loop_stop_reason:\n    current.loop_stop_reason ?? null,\n  data_classification:\n    dataClassification\n};\n\nconst commonAttributes = [\n  attribute(\n    \"langfuse.trace.name\",\n    \"rfq-quotation\"\n  ),\n  attribute(\n    \"langfuse.trace.tags\",\n    [\n      \"phase3\",\n      \"n8n\",\n      \"local\",\n      \"l0-l1-only\"\n    ]\n  ),\n  attribute(\n    \"langfuse.trace.metadata\",\n    JSON.stringify(traceMetadata)\n  ),\n  attribute(\n    \"langfuse.environment\",\n    \"development\"\n  ),\n  attribute(\n    \"langfuse.version\",\n    \"phase3-n8n-otel-v1\"\n  )\n];\n\nconst observationAttributes = [\n  ...commonAttributes,\n\n  attribute(\n    \"langfuse.observation.type\",\n    \"generation\"\n  ),\n\n  attribute(\n    \"langfuse.observation.model.name\",\n    current.llm_model ?? \"qwen3:8b\"\n  ),\n\n  attribute(\n    \"langfuse.observation.model.parameters\",\n    JSON.stringify({\n      temperature: 0,\n      num_ctx: 4096,\n      num_predict: 400\n    })\n  ),\n\n  attribute(\n    \"langfuse.observation.input\",\n    JSON.stringify({\n      sha256: inputHash,\n      length: inputLength,\n      data_classification:\n        dataClassification\n    })\n  ),\n\n  attribute(\n    \"langfuse.observation.output\",\n    JSON.stringify({\n      sha256: outputHash,\n      length: outputLength,\n      validation_status:\n        validationPassed ? \"PASS\" : \"FAIL\"\n    })\n  ),\n\n  attribute(\n    \"langfuse.observation.usage_details\",\n    JSON.stringify({\n      input:\n        Number(current.llm_prompt_tokens ?? 0),\n      output:\n        Number(current.llm_output_tokens ?? 0),\n      total:\n        Number(current.llm_prompt_tokens ?? 0) +\n        Number(current.llm_output_tokens ?? 0)\n    })\n  ),\n\n  attribute(\n    \"langfuse.observation.cost_details\",\n    JSON.stringify({\n      input: 0,\n      output: 0,\n      total:\n        Number(current.llm_cost_usd ?? 0)\n    })\n  ),\n\n  attribute(\n    \"langfuse.observation.metadata\",\n    JSON.stringify(observationMetadata)\n  ),\n\n  attribute(\n    \"langfuse.observation.level\",\n    validationPassed ? \"DEFAULT\" : \"ERROR\"\n  ),\n\n  attribute(\n    \"langfuse.observation.status_message\",\n    validationPassed\n      ? \"VALIDATION_PASS\"\n      : validationErrors.join(\",\")\n  )\n];\n\nconst otelPayload = {\n  resourceSpans: [\n    {\n      resource: {\n        attributes: [\n          attribute(\n            \"service.name\",\n            \"aeroprecision-n8n-phase3\"\n          )\n        ]\n      },\n\n      scopeSpans: [\n        {\n          scope: {\n            name:\n              \"aeroprecision.phase3.n8n\",\n            version:\n              \"1.0.0\"\n          },\n\n          spans: [\n            {\n              traceId,\n              spanId:\n                generationSpanId,\n              parentSpanId:\n                rootSpanId,\n              name:\n                \"ollama-quote-explanation\",\n              kind:\n                1,\n              startTimeUnixNano:\n                toUnixNano(startMs),\n              endTimeUnixNano:\n                toUnixNano(endMs),\n              attributes:\n                observationAttributes,\n              status: {\n                code:\n                  validationPassed ? 1 : 2,\n                message:\n                  validationPassed\n                    ? \"VALIDATION_PASS\"\n                    : validationErrors.join(\",\")\n              }\n            }\n          ]\n        }\n      ]\n    }\n  ]\n};\n\nreturn {\n  json: {\n    otel_payload:\n      otelPayload,\n\n    observability_trace_id:\n      traceId,\n\n    observability_root_span_id:\n      rootSpanId,\n\n    observability_generation_span_id:\n      generationSpanId,\n\n    observability_business_trace_id:\n      context.trace_id,\n\n    observability_data_classification:\n      dataClassification,\n\n    llm_attempt:\n      attempt,\n\n    observability_payload_ready:\n      true\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2928,
+        224
+      ],
+      "id": "35bede46-0c6f-42a4-ae6f-dcf545717948",
+      "name": "Build Langfuse Generation OTLP"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://aeroprecision-langfuse-web:3000/api/public/otel/v1/traces",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.otel_payload) }}",
+        "options": {
+          "timeout": 3000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3136,
+        224
+      ],
+      "id": "07415c6a-3f9c-4bb0-a85c-14f283a7d43a",
+      "name": "Send Langfuse Generation OTLP",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const built =\n  $(\"Build Langfuse Generation OTLP\").item.json;\n\nconst response = $json;\n\nconst statusCode =\n  Number(\n    response.statusCode ??\n    response.status ??\n    200\n  );\n\nconst failed =\n  Boolean(response.error) ||\n  statusCode >= 400;\n\nreturn {\n  json: {\n    observability_trace_id:\n      built.observability_trace_id,\n\n    observability_generation_span_id:\n      built.observability_generation_span_id,\n\n    observability_business_trace_id:\n      built.observability_business_trace_id,\n\n    llm_attempt:\n      built.llm_attempt,\n\n    observability_send_status:\n      failed ? \"FAILED\" : \"ACCEPTED\",\n\n    observability_http_status:\n      statusCode,\n\n    observability_failure_reason:\n      failed\n        ? String(\n            response.error?.message ??\n            response.message ??\n            \"LANGFUSE_SEND_FAILED\"\n          ).slice(0, 300)\n        : null,\n\n    observability_recorded_at:\n      new Date().toISOString()\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3344,
+        224
+      ],
+      "id": "87634f0e-3edb-4bb0-b8ec-50d66a3f7897",
+      "name": "Record Langfuse Generation Result"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "0605820b-1eea-4720-97c6-cd46450ea9f8",
+              "leftValue": "={{ $json.validation_status }}",
+              "rightValue": "VALIDATED_PENDING_MASTER_LOOKUP",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -16,
+        0
+      ],
+      "id": "ffff8ebf-390d-4822-811c-8ed8b6f523df",
+      "name": "RFQ Validation Gate"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const errors = Array.isArray(\n  $json.validation_errors\n)\n  ? $json.validation_errors\n  : [];\n\nreturn {\n  json: {\n    ...$json,\n    fail_closed: true,\n    fail_closed_reason:\n      'RFQ_VALIDATION_FAILED:' +\n      (errors.join(',') || 'UNKNOWN'),\n    ai_status: 'NOT_CALLED',\n    llm_attempt: 0,\n    llm_max_attempts: 3,\n    human_approval_required: false,\n    persistence_status: 'NOT_ATTEMPTED',\n    fail_closed_at: new Date().toISOString()\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        176,
+        144
+      ],
+      "id": "14be8bbb-bfd9-4af3-95f8-bbe4e8c156ab",
+      "name": "Fail Closed (Invalid RFQ)"
+    },
+    {
+      "parameters": {
+        "jsCode": "const rfq = $('Set Local Test Quote Candidate').first().json;\n\nreturn $input.all().map((item) => ({\n  json: {\n    ...rfq,\n    ...item.json,\n  },\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        768,
+        0
+      ],
+      "id": "daf10b87-57d6-4b67-b684-7e3ecf1103be",
+      "name": "Merge RFQ with Product Master"
     }
   ],
   "connections": {
@@ -1114,14 +1319,20 @@
     },
     "Edit Fields": {
       "main": [
-        []
+        [
+          {
+            "node": "Validate RFQ (Deterministic)",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Validate RFQ (Deterministic)": {
       "main": [
         [
           {
-            "node": "Set Local Test Quote Candidate",
+            "node": "RFQ Validation Gate",
             "type": "main",
             "index": 0
           }
@@ -1132,7 +1343,7 @@
       "main": [
         [
           {
-            "node": "Calculate Quote (Deterministic)",
+            "node": "Merge RFQ with Product Master",
             "type": "main",
             "index": 0
           }
@@ -1143,7 +1354,7 @@
       "main": [
         [
           {
-            "node": "CFO Compliance Gate",
+            "node": "Initialize Langfuse Trace Context",
             "type": "main",
             "index": 0
           }
@@ -1383,7 +1594,7 @@
       "main": [
         [
           {
-            "node": "Ollama Explanation",
+            "node": "Hash Ollama Input Attempt 1",
             "type": "main",
             "index": 0
           }
@@ -1406,6 +1617,11 @@
         [
           {
             "node": "Ollama Output Gate",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Hash Ollama Output",
             "type": "main",
             "index": 0
           }
@@ -1471,6 +1687,11 @@
             "node": "Retry Output Gate",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Hash Ollama Output",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -1497,7 +1718,7 @@
       "main": [
         [
           {
-            "node": "Ollama Retry",
+            "node": "Hash Ollama Input Attempt 2",
             "type": "main",
             "index": 0
           }
@@ -1526,7 +1747,7 @@
       "main": [
         [
           {
-            "node": "Ollama Attempt 3",
+            "node": "Hash Ollama Input Attempt 3",
             "type": "main",
             "index": 0
           }
@@ -1549,6 +1770,11 @@
         [
           {
             "node": "Final Ollama Output Gate",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Hash Ollama Output",
             "type": "main",
             "index": 0
           }
@@ -1605,6 +1831,123 @@
           }
         ]
       ]
+    },
+    "Initialize Langfuse Trace Context": {
+      "main": [
+        [
+          {
+            "node": "Hash Langfuse Trace Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hash Langfuse Trace Context": {
+      "main": [
+        [
+          {
+            "node": "CFO Compliance Gate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hash Ollama Input Attempt 1": {
+      "main": [
+        [
+          {
+            "node": "Ollama Explanation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hash Ollama Input Attempt 2": {
+      "main": [
+        [
+          {
+            "node": "Ollama Retry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hash Ollama Input Attempt 3": {
+      "main": [
+        [
+          {
+            "node": "Ollama Attempt 3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hash Ollama Output": {
+      "main": [
+        [
+          {
+            "node": "Build Langfuse Generation OTLP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Langfuse Generation OTLP": {
+      "main": [
+        [
+          {
+            "node": "Send Langfuse Generation OTLP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Langfuse Generation OTLP": {
+      "main": [
+        [
+          {
+            "node": "Record Langfuse Generation Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RFQ Validation Gate": {
+      "main": [
+        [
+          {
+            "node": "Set Local Test Quote Candidate",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Fail Closed (Invalid RFQ)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge RFQ with Product Master": {
+      "main": [
+        [
+          {
+            "node": "Calculate Quote (Deterministic)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -1620,7 +1963,7 @@
   "pinData": {},
   "versionId": "02138f25-c193-45ea-9362-ba8a430ab9a5",
   "activeVersionId": null,
-  "versionCounter": 1,
+  "versionCounter": 102,
   "triggerCount": 0,
   "sourceWorkflowId": null,
   "tags": [],
