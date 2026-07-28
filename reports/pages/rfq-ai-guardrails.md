@@ -1,5 +1,7 @@
 # Manufacturing RFQ Automation with AI Guardrails
 
+[English](https://mn0at4-svg.github.io/aeroprecision-industrial-dbt/rfq-ai-guardrails/) | [日本語](https://mn0at4-svg.github.io/aeroprecision-industrial-dbt/rfq-ai-guardrails-ja/)
+
 > I designed a manufacturing RFQ automation workflow where deterministic finance controls and human approval remain authoritative, while the LLM is bounded, observable, and fail-closed.
 
 ## Executive summary
