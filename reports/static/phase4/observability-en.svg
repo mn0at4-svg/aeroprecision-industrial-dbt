@@ -1,11 +1,35 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="570" viewBox="0 0 1200 570" role="img" aria-labelledby="title desc">
-<title id="title">Observable AI operations without raw content retention</title>
-<desc id="desc">Observable AI operations without raw content retention</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+<title id="title">Observability without raw content retention</title>
+<desc id="desc">Langfuse receives anonymized operational metadata only. Raw prompts, raw LLM outputs, and credentials are not retained.</desc>
 <defs>
   <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
     <path d="M 0 0 L 10 5 L 0 10 z" fill="#57d2ff"/>
   </marker>
 </defs>
 <rect width="100%" height="100%" rx="24" fill="#08111f"/>
-<text x="56" y="54" font-family="Arial, Noto Sans JP, sans-serif" font-size="28" font-weight="500" fill="#f4fbff" text-anchor="start">Observable AI operations without raw content retention</text><text x="56" y="86" font-family="Arial, Noto Sans JP, sans-serif" font-size="17" font-weight="400" fill="#a9c3d6" text-anchor="start">Local Langfuse receives redacted operational metadata only</text><rect x="60" y="190" width="260" height="126" rx="16" fill="#10263a" stroke="#284158" stroke-width="2"/><rect x="60" y="190" width="10" height="126" rx="5" fill="#38bdf8"/><text x="86" y="228" font-family="Arial, Noto Sans JP, sans-serif" font-size="18" font-weight="500" fill="#f4fbff" text-anchor="start">n8n workflow</text><text x="86" y="260" font-family="Arial, Noto Sans JP, sans-serif" font-size="15" fill="#c7d8e6" text-anchor="start"><tspan x="86" dy="0">Business trace</tspan><tspan x="86" dy="24">Attempt and validation</tspan></text><path d="M320 253 L420 253" stroke="#57d2ff" stroke-width="4" fill="none" marker-end="url(#arrow)"/><rect x="430" y="190" width="330" height="126" rx="16" fill="#10263a" stroke="#284158" stroke-width="2"/><rect x="430" y="190" width="10" height="126" rx="5" fill="#fbbf24"/><text x="456" y="228" font-family="Arial, Noto Sans JP, sans-serif" font-size="18" font-weight="500" fill="#f4fbff" text-anchor="start">Redacted telemetry</text><text x="456" y="260" font-family="Arial, Noto Sans JP, sans-serif" font-size="15" fill="#c7d8e6" text-anchor="start"><tspan x="456" dy="0">Hashes • tokens • latency</tspan><tspan x="456" dy="24">Retry • stop reason • cost</tspan></text><path d="M760 253 L860 253" stroke="#57d2ff" stroke-width="4" fill="none" marker-end="url(#arrow)"/><rect x="870" y="190" width="270" height="126" rx="16" fill="#10263a" stroke="#284158" stroke-width="2"/><rect x="870" y="190" width="10" height="126" rx="5" fill="#2dd4bf"/><text x="896" y="228" font-family="Arial, Noto Sans JP, sans-serif" font-size="18" font-weight="500" fill="#f4fbff" text-anchor="start">Langfuse</text><text x="896" y="260" font-family="Arial, Noto Sans JP, sans-serif" font-size="15" fill="#c7d8e6" text-anchor="start"><tspan x="896" dy="0">Trace and generation metadata</tspan><tspan x="896" dy="24">No raw input or output</tspan></text><rect x="220" y="405" width="760" height="108" rx="16" fill="#241522" stroke="#fb7185" stroke-width="2"/><text x="600" y="440" font-family="Arial, Noto Sans JP, sans-serif" font-size="20" font-weight="500" fill="#fecdd3" text-anchor="middle">Excluded from telemetry</text><text x="600" y="470" font-family="Arial, Noto Sans JP, sans-serif" font-size="15" font-weight="400" fill="#ffe4e6" text-anchor="middle">No raw prompt</text><text x="600" y="490" font-family="Arial, Noto Sans JP, sans-serif" font-size="15" font-weight="400" fill="#ffe4e6" text-anchor="middle">No raw LLM output</text><text x="600" y="510" font-family="Arial, Noto Sans JP, sans-serif" font-size="15" font-weight="400" fill="#ffe4e6" text-anchor="middle">No credentials</text><text x="600" y="364" font-family="Arial, Noto Sans JP, sans-serif" font-size="16" font-weight="400" fill="#a9c3d6" text-anchor="middle">L0/L1 synthetic data only</text>
+<text x="56" y="58" font-family="Arial, sans-serif" font-size="28" font-weight="500" fill="#f4fbff" text-anchor="start">Observability without raw content retention</text>
+<text x="56" y="90" font-family="Arial, sans-serif" font-size="17" font-weight="400" fill="#a9c3d6" text-anchor="start">Local Langfuse receives anonymized operational metadata only.</text>
+<rect x="60" y="180" width="260" height="150" rx="16" fill="#10263a" stroke="#284158" stroke-width="2"/>
+<rect x="60" y="180" width="10" height="150" rx="5" fill="#38bdf8"/>
+<text x="86" y="220" font-family="Arial, sans-serif" font-size="19" font-weight="500" fill="#f4fbff" text-anchor="start">n8n workflow</text>
+<text x="86" y="252" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#c7d8e6" text-anchor="start">business trace</text>
+<text x="86" y="276" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#c7d8e6" text-anchor="start">attempt · validation</text>
+<path d="M320 255 L420 255" stroke="#57d2ff" stroke-width="4" fill="none" marker-end="url(#arrow)"/>
+<rect x="430" y="180" width="330" height="150" rx="16" fill="#10263a" stroke="#284158" stroke-width="2"/>
+<rect x="430" y="180" width="10" height="150" rx="5" fill="#fbbf24"/>
+<text x="456" y="220" font-family="Arial, sans-serif" font-size="19" font-weight="500" fill="#f4fbff" text-anchor="start">Anonymized metadata</text>
+<text x="456" y="252" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#c7d8e6" text-anchor="start">hash · token · latency</text>
+<text x="456" y="276" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#c7d8e6" text-anchor="start">retry · stop reason · cost</text>
+<path d="M760 255 L860 255" stroke="#57d2ff" stroke-width="4" fill="none" marker-end="url(#arrow)"/>
+<rect x="870" y="180" width="270" height="150" rx="16" fill="#10263a" stroke="#284158" stroke-width="2"/>
+<rect x="870" y="180" width="10" height="150" rx="5" fill="#2dd4bf"/>
+<text x="896" y="220" font-family="Arial, sans-serif" font-size="19" font-weight="500" fill="#f4fbff" text-anchor="start">Langfuse</text>
+<text x="896" y="252" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#c7d8e6" text-anchor="start">trace · generation metadata</text>
+<text x="896" y="276" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#c7d8e6" text-anchor="start">raw input/output not retained</text>
+<text x="600" y="375" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#a9c3d6" text-anchor="middle">L0/L1 synthetic data only</text>
+<rect x="220" y="410" width="760" height="165" rx="20" fill="#241522" stroke="#fb7185" stroke-width="2"/>
+<text x="600" y="452" font-family="Arial, sans-serif" font-size="21" font-weight="500" fill="#fecdd3" text-anchor="middle">Information not sent</text>
+<text x="600" y="490" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#ffe4e6" text-anchor="middle">No raw prompt</text>
+<text x="600" y="522" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#ffe4e6" text-anchor="middle">No raw LLM output</text>
+<text x="600" y="554" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#ffe4e6" text-anchor="middle">No credentials</text>
 </svg>
