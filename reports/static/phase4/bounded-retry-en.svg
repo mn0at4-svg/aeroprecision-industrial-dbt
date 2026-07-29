@@ -1,11 +1,59 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="570" viewBox="0 0 1200 570" role="img" aria-labelledby="title desc">
-<title id="title">Bounded retry and fail-closed control</title>
-<desc id="desc">Bounded retry and fail-closed control</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" role="img" aria-labelledby="title desc">
+<title id="title">Bounded retries and fail-closed control</title>
+<desc id="desc">LLM explanation support is validated up to three times. If no valid output is produced, the workflow fails closed.</desc>
 <defs>
   <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
     <path d="M 0 0 L 10 5 L 0 10 z" fill="#57d2ff"/>
   </marker>
 </defs>
 <rect width="100%" height="100%" rx="24" fill="#08111f"/>
-<text x="56" y="54" font-family="Arial, Noto Sans JP, sans-serif" font-size="28" font-weight="500" fill="#f4fbff" text-anchor="start">Bounded retry and fail-closed control</text><text x="56" y="86" font-family="Arial, Noto Sans JP, sans-serif" font-size="17" font-weight="400" fill="#a9c3d6" text-anchor="start">Validation occurs on every attempt. No fourth call is allowed.</text><rect x="110" y="145" width="250" height="90" rx="16" fill="#10263a" stroke="#284158" stroke-width="2"/><rect x="110" y="145" width="10" height="90" rx="5" fill="#fbbf24"/><text x="136" y="183" font-family="Arial, Noto Sans JP, sans-serif" font-size="18" font-weight="500" fill="#f4fbff" text-anchor="start">Attempt 1</text><text x="136" y="215" font-family="Arial, Noto Sans JP, sans-serif" font-size="15" fill="#c7d8e6" text-anchor="start"><tspan x="136" dy="0">LLM explanation</tspan><tspan x="136" dy="24">L0/L1 only</tspan></text><path d="M235 235 L235 285" stroke="#57d2ff" stroke-width="4" fill="none" marker-end="url(#arrow)"/><rect x="110" y="300" width="250" height="78" rx="16" fill="#10263a" stroke="#284158" stroke-width="2"/><rect x="110" y="300" width="10" height="78" rx="5" fill="#a78bfa"/><text x="136" y="338" font-family="Arial, Noto Sans JP, sans-serif" font-size="18" font-weight="500" fill="#f4fbff" text-anchor="start">Validated</text><text x="136" y="370" font-family="Arial, Noto Sans JP, sans-serif" font-size="15" fill="#c7d8e6" text-anchor="start"><tspan x="136" dy="0">Output contract check</tspan></text><path d="M360 339 L439 339" stroke="#fbbf24" stroke-width="4" fill="none" marker-end="url(#arrow)"/><text x="399.5" y="323" font-family="Arial, Noto Sans JP, sans-serif" font-size="14" font-weight="500" fill="#fbbf24" text-anchor="middle">Retry</text><rect x="455" y="145" width="250" height="90" rx="16" fill="#10263a" stroke="#284158" stroke-width="2"/><rect x="455" y="145" width="10" height="90" rx="5" fill="#fbbf24"/><text x="481" y="183" font-family="Arial, Noto Sans JP, sans-serif" font-size="18" font-weight="500" fill="#f4fbff" text-anchor="start">Attempt 2</text><text x="481" y="215" font-family="Arial, Noto Sans JP, sans-serif" font-size="15" fill="#c7d8e6" text-anchor="start"><tspan x="481" dy="0">LLM explanation</tspan><tspan x="481" dy="24">L0/L1 only</tspan></text><path d="M580 235 L580 285" stroke="#57d2ff" stroke-width="4" fill="none" marker-end="url(#arrow)"/><rect x="455" y="300" width="250" height="78" rx="16" fill="#10263a" stroke="#284158" stroke-width="2"/><rect x="455" y="300" width="10" height="78" rx="5" fill="#a78bfa"/><text x="481" y="338" font-family="Arial, Noto Sans JP, sans-serif" font-size="18" font-weight="500" fill="#f4fbff" text-anchor="start">Validated</text><text x="481" y="370" font-family="Arial, Noto Sans JP, sans-serif" font-size="15" fill="#c7d8e6" text-anchor="start"><tspan x="481" dy="0">Output contract check</tspan></text><path d="M705 339 L784 339" stroke="#fbbf24" stroke-width="4" fill="none" marker-end="url(#arrow)"/><text x="744.5" y="323" font-family="Arial, Noto Sans JP, sans-serif" font-size="14" font-weight="500" fill="#fbbf24" text-anchor="middle">Retry</text><rect x="800" y="145" width="250" height="90" rx="16" fill="#10263a" stroke="#284158" stroke-width="2"/><rect x="800" y="145" width="10" height="90" rx="5" fill="#fbbf24"/><text x="826" y="183" font-family="Arial, Noto Sans JP, sans-serif" font-size="18" font-weight="500" fill="#f4fbff" text-anchor="start">Attempt 3</text><text x="826" y="215" font-family="Arial, Noto Sans JP, sans-serif" font-size="15" fill="#c7d8e6" text-anchor="start"><tspan x="826" dy="0">LLM explanation</tspan><tspan x="826" dy="24">L0/L1 only</tspan></text><path d="M925 235 L925 285" stroke="#57d2ff" stroke-width="4" fill="none" marker-end="url(#arrow)"/><rect x="800" y="300" width="250" height="78" rx="16" fill="#10263a" stroke="#284158" stroke-width="2"/><rect x="800" y="300" width="10" height="78" rx="5" fill="#a78bfa"/><text x="826" y="338" font-family="Arial, Noto Sans JP, sans-serif" font-size="18" font-weight="500" fill="#f4fbff" text-anchor="start">Validated</text><text x="826" y="370" font-family="Arial, Noto Sans JP, sans-serif" font-size="15" fill="#c7d8e6" text-anchor="start"><tspan x="826" dy="0">Output contract check</tspan></text><path d="M235 378 L235 446" stroke="#34d399" stroke-width="4" fill="none" marker-end="url(#arrow)"/><rect x="92" y="460" width="286" height="74" rx="16" fill="#10263a" stroke="#284158" stroke-width="2"/><rect x="92" y="460" width="10" height="74" rx="5" fill="#34d399"/><text x="118" y="498" font-family="Arial, Noto Sans JP, sans-serif" font-size="18" font-weight="500" fill="#f4fbff" text-anchor="start">Human Approval</text><text x="118" y="530" font-family="Arial, Noto Sans JP, sans-serif" font-size="15" fill="#c7d8e6" text-anchor="start"><tspan x="118" dy="0">Only after validated output</tspan></text><path d="M925 378 L925 446" stroke="#fb7185" stroke-width="4" fill="none" marker-end="url(#arrow)"/><rect x="670" y="460" width="510" height="74" rx="16" fill="#10263a" stroke="#284158" stroke-width="2"/><rect x="670" y="460" width="10" height="74" rx="5" fill="#fb7185"/><text x="696" y="498" font-family="Arial, Noto Sans JP, sans-serif" font-size="18" font-weight="500" fill="#f4fbff" text-anchor="start">FAIL CLOSED</text><text x="696" y="530" font-family="Arial, Noto Sans JP, sans-serif" font-size="15" fill="#c7d8e6" text-anchor="start"><tspan x="696" dy="0">No approval • No persistence • No external action</tspan></text>
+<text x="56" y="58" font-family="Arial, sans-serif" font-size="28" font-weight="500" fill="#f4fbff" text-anchor="start">Bounded retries and fail-closed control</text>
+<text x="56" y="90" font-family="Arial, sans-serif" font-size="17" font-weight="400" fill="#a9c3d6" text-anchor="start">Each output is validated. A fourth call is never made.</text>
+<rect x="110" y="150" width="250" height="108" rx="16" fill="#10263a" stroke="#284158" stroke-width="2"/>
+<rect x="110" y="150" width="10" height="108" rx="5" fill="#fbbf24"/>
+<text x="136" y="190" font-family="Arial, sans-serif" font-size="19" font-weight="500" fill="#f4fbff" text-anchor="start">Attempt 1</text>
+<text x="136" y="222" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#c7d8e6" text-anchor="start">LLM explanation support</text>
+<text x="136" y="246" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#c7d8e6" text-anchor="start">L0/L1 only</text>
+<path d="M235 258 L235 304" stroke="#57d2ff" stroke-width="4" fill="none" marker-end="url(#arrow)"/>
+<rect x="110" y="320" width="250" height="94" rx="16" fill="#10263a" stroke="#284158" stroke-width="2"/>
+<rect x="110" y="320" width="10" height="94" rx="5" fill="#a78bfa"/>
+<text x="136" y="360" font-family="Arial, sans-serif" font-size="19" font-weight="500" fill="#f4fbff" text-anchor="start">Validated</text>
+<text x="136" y="392" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#c7d8e6" text-anchor="start">Output contract check</text>
+<rect x="455" y="150" width="250" height="108" rx="16" fill="#10263a" stroke="#284158" stroke-width="2"/>
+<rect x="455" y="150" width="10" height="108" rx="5" fill="#fbbf24"/>
+<text x="481" y="190" font-family="Arial, sans-serif" font-size="19" font-weight="500" fill="#f4fbff" text-anchor="start">Attempt 2</text>
+<text x="481" y="222" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#c7d8e6" text-anchor="start">LLM explanation support</text>
+<text x="481" y="246" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#c7d8e6" text-anchor="start">L0/L1 only</text>
+<path d="M580 258 L580 304" stroke="#57d2ff" stroke-width="4" fill="none" marker-end="url(#arrow)"/>
+<rect x="455" y="320" width="250" height="94" rx="16" fill="#10263a" stroke="#284158" stroke-width="2"/>
+<rect x="455" y="320" width="10" height="94" rx="5" fill="#a78bfa"/>
+<text x="481" y="360" font-family="Arial, sans-serif" font-size="19" font-weight="500" fill="#f4fbff" text-anchor="start">Validated</text>
+<text x="481" y="392" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#c7d8e6" text-anchor="start">Output contract check</text>
+<rect x="800" y="150" width="250" height="108" rx="16" fill="#10263a" stroke="#284158" stroke-width="2"/>
+<rect x="800" y="150" width="10" height="108" rx="5" fill="#fbbf24"/>
+<text x="826" y="190" font-family="Arial, sans-serif" font-size="19" font-weight="500" fill="#f4fbff" text-anchor="start">Attempt 3</text>
+<text x="826" y="222" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#c7d8e6" text-anchor="start">LLM explanation support</text>
+<text x="826" y="246" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#c7d8e6" text-anchor="start">L0/L1 only</text>
+<path d="M925 258 L925 304" stroke="#57d2ff" stroke-width="4" fill="none" marker-end="url(#arrow)"/>
+<rect x="800" y="320" width="250" height="94" rx="16" fill="#10263a" stroke="#284158" stroke-width="2"/>
+<rect x="800" y="320" width="10" height="94" rx="5" fill="#a78bfa"/>
+<text x="826" y="360" font-family="Arial, sans-serif" font-size="19" font-weight="500" fill="#f4fbff" text-anchor="start">Validated</text>
+<text x="826" y="392" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#c7d8e6" text-anchor="start">Output contract check</text>
+<path d="M360 367 L439 367" stroke="#fbbf24" stroke-width="4" fill="none" marker-end="url(#arrow)"/>
+<text x="399.5" y="349" font-family="Arial, sans-serif" font-size="14" font-weight="500" fill="#fbbf24" text-anchor="middle">Retry</text>
+<path d="M705 367 L784 367" stroke="#fbbf24" stroke-width="4" fill="none" marker-end="url(#arrow)"/>
+<text x="744.5" y="349" font-family="Arial, sans-serif" font-size="14" font-weight="500" fill="#fbbf24" text-anchor="middle">Retry</text>
+<path d="M235 414 L235 476" stroke="#34d399" stroke-width="4" fill="none" marker-end="url(#arrow)"/>
+
+<path d="M925 414 L925 476" stroke="#fb7185" stroke-width="4" fill="none" marker-end="url(#arrow)"/>
+
+<rect x="92" y="492" width="300" height="105" rx="16" fill="#10263a" stroke="#284158" stroke-width="2"/>
+<rect x="92" y="492" width="10" height="105" rx="5" fill="#34d399"/>
+<text x="118" y="532" font-family="Arial, sans-serif" font-size="19" font-weight="500" fill="#f4fbff" text-anchor="start">Human Approval</text>
+<text x="118" y="564" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#c7d8e6" text-anchor="start">After validated output only</text>
+
+<rect x="670" y="492" width="510" height="105" rx="16" fill="#10263a" stroke="#284158" stroke-width="2"/>
+<rect x="670" y="492" width="10" height="105" rx="5" fill="#fb7185"/>
+<text x="696" y="532" font-family="Arial, sans-serif" font-size="19" font-weight="500" fill="#f4fbff" text-anchor="start">FAIL CLOSED</text>
+<text x="696" y="564" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#c7d8e6" text-anchor="start">No approval, no persistence, no external action</text>
 </svg>
