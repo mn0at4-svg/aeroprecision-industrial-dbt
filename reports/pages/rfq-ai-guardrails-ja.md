@@ -4,6 +4,8 @@
 
 > 決定論的な財務コントロールとHuman Approvalを正本に残し、LLMを上限付き・観測可能・fail-closedな説明補助として設計しました。
 
+> **3分45秒の技術デモ：** [YouTubeで見る](https://youtu.be/k4ueMgx4VOA)
+
 ## エグゼクティブサマリー
 
 ## 設計全体

@@ -4,6 +4,8 @@
 
 > I designed a manufacturing RFQ automation workflow where deterministic finance controls and human approval remain authoritative, while the LLM is bounded, observable, and fail-closed.
 
+> **Technical demo (3:45):** [Watch on YouTube](https://youtu.be/ueyuI5ewWV4)
+
 ## Executive summary
 
 ## Architecture at a glance
